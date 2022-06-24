@@ -21,56 +21,65 @@
   <body>
     myTrakr
     <main>
-      <form action="">
-        New Account:
-        <input type="text" />
-        <button>Add new account</button>
-      </form>
-      <form action="">
-        New Transaction: Deposit
-        <input type="radio" />
-        Withdraw
-        <input type="radio" />
-        Transfer
-        <input type="radio" />
-        Account:
+      <div class="container,">
+        
+        <form action="" class="container">
+            New Account:
+            <input type="text" />
+            <button>Add new account</button>
+        </form>
+        <form action="" class="container">
+          New Transaction: Deposit
+          <input type="radio" />
+          Withdraw
+          <input type="radio" />
+          Transfer
+          <input type="radio" />
+          <div class="container m-3">
+            Account:
+            <select></select>
+            
+            From:
+            <select></select>
+            
+            To:
+            <select></select>
+            Category:
+            <select></select>
+          </div>
+          <div class="container m-3">
+            <input type="text" />
+            <button type="button">Add new category</button>
+          </div>
+          <div class="container m-3">
+
+            Description
+            <input type="text" />
+            
+            Amount:
+            <input type="number" />
+            
+            <button>Add transaction</button>
+          </div>
+        </form>
+        
+        Account summary
+        <ul></ul>
+        Filter by account:
         <select></select>
-
-        From:
-        <select></select>
-
-        To:
-        <select></select>
-        Category:
-        <select></select>
-        <input type="text" />
-        <button type="button">Add new category</button>
-
-        Description
-        <input type="text" />
-
-        Amount:
-        <input type="number" />
-
-        <button>Add transaction</button>
-      </form>
-
-      Account summary
-      <ul></ul>
-      Filter by account:
-      <select></select>
-      <table>
-        <tr>
-          <th>Id</th>
-          <th>Username</th>
-          <th>Transaction Type</th>
-          <th>Category</th>
-          <th>Description</th>
-          <th>Amount</th>
-          <th>From</th>
-          <th>To</th>
-        </tr>
-      </table>
+        <table>
+          <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Transaction Type</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>From</th>
+            <th>To</th>
+          </tr>
+        </table>
+    </div>
     </main>
     <script src="./js/helpers/Account.js"></script>
     <script src="./js/helpers/Category.js"></script>
