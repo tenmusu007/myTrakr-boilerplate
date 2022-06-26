@@ -51,81 +51,76 @@ $('#addtran').on('click', (e) => {
   let txt = $("#transtxt").val();
   e.preventDefault();
   $.ajax({
-    method: 'post',
-    data: JSON.stringify(
-      {
-        newTransaction: {
-          accountId: 1,
-          balance: 0,
-          username: "atsu",
-          // username: Username,
-          typeof: "deposit",
-          // typeof: radiovalue,
-          // typeof: radiovalue,
-          category: "food",
-          from: "koki",
-          to: "atsu",
-          txt: txt,
-          amount: 100,
-          // amount: $("#transamount").val(),
-        }
-      },
-    ),
-    url: 'http://localhost:3000/transaction',
+    method: 'get',
+    url: 'http://localhost:3000/accounts',
     dataType: 'json',
-    contentType: "application/json",
-  })
-    .done((data) => {
-      console.log('data post ajax', data)
-      const dataInfo = data
-      console.log("data", dataInfo);
-      $.ajax({
-        method: 'get',
-        url: 'http://localhost:3000/accounts',
-        dataType: 'json',
-      }).done((data2) => {
-        console.log('"indiv Account"', data2);
-        $.each(data2, (i, post) => {
-          Username = post.username
-          console.log(Username, post.transactions);
-          console.log("GET", post);
-          console.log("latest transaction",  post.transactions[(post.transactions.length -1)]);
-          // if(post.transactions == []){
-          test = new Deposit(post.transactions, post.transactions[(post.transactions.length -1)])
-          test.commit();
-          // }
-          // else{
-          //   test = new Deposit(Number(post.transactions[(post.transactions.length -1)].amount), post.transactions[(post.transactions.length -2)])
-          //   test.commit();
-          // }
-          console.log('Transaction 1:', test);
-        })
-        // if (!userObj == []) {
-        // console.log(userObj);
-        // test.commit();
-        // console.log('Transaction 1:', test);
-        // }
-      });
-
-      $.each(data, (i, post) => {
-        $('#table').append(`
-        <tr class="table">
-          <td>${post.id}</td>
-          <td>${post.username}</td>
-          <td>${post.typeof}</td>
-          <td>${post.category}</td>
-          <td>${post.txt}</td>
-          <td>${post.amount}</td>
-          <td>${post.from}</td>
-          <td>${post.to}</td>
-        </tr>
-        `);
-      });
+  }).done((data2) => {
+    console.log('"indiv Account"', data2);
+    $.each(data2, (i, post) => {
+      Username = post.username
+      console.log(Username, post.transactions);
+      console.log("GET", post);
+      console.log("latest transaction",  post.transactions[(post.transactions.length -1)]);
+      if(!post.transaction === []){
+        test = new Deposit(post.transactions, post.transactions[(post.transactions.length -1)])
+        test.commit();
+      }
     })
-    .fail((data) => {
-      // $('.result').html(data);
-      console.log(data);
-    });
+    $.ajax({
+      method: 'post',
+      data: JSON.stringify(
+        {
+          newTransaction: {
+            accountId: 1,
+            balance: 0,
+            username: "atsu",
+            // username: Username,
+            typeof: "deposit",
+            // typeof: radiovalue,
+            // typeof: radiovalue,
+            category: "food",
+            from: "koki",
+            to: "atsu",
+            txt: txt,
+            amount: 100,
+            // amount: $("#transamount").val(),
+          }
+        },
+      ),
+      url: 'http://localhost:3000/transaction',
+      dataType: 'json',
+      contentType: "application/json",
+    })
+      .done((data) => {
+      console.log('Transaction 1:', test);
+        // console.log('data post ajax', data)
+        const dataInfo = data
+        // console.log("data", dataInfo);
+        $.each(data, (i, post) => {
+          $('#table').append(`
+          <tr class="table">
+            <td>${post.id}</td>
+            <td>${post.username}</td>
+            <td>${post.typeof}</td>
+            <td>${post.category}</td>
+            <td>${post.txt}</td>
+            <td>${post.amount}</td>
+            <td>${post.from}</td>
+            <td>${post.to}</td>
+          </tr>
+          `);
+        });
+      })
+      .fail((data) => {
+        // $('.result').html(data);
+        console.log(data);
+      });
+    // if (!userObj == []) {
+    // console.log(userObj);
+    // test.commit();
+    // console.log('Transaction 1:', test);
+    // }
+  });
 });
 // const addTransaction =(data)=>{
 //   console.log(data);
