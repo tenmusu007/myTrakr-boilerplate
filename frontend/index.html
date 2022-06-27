@@ -21,12 +21,12 @@
   <body>
     myTrakr
     <main>
-      <div class="container,">
+      <div class="container">
         
         <form action="" class="container">
             New Account:
             <input type="text" />
-            <button>Add new account</button>
+            <button id="category">Add new account</button>
         </form>
         <form action="" class="container">
           New Transaction: 
@@ -37,24 +37,29 @@
           Transfer
           <input type="radio" name="type" value="transfer" />
           <div class="container m-3">
-            Account:
-            <select></select>
-            
-            From:
-            <select name="from" id="from">
-              <option value="none">From</option>
-              <option value="koki">koki</option>
-            </select>
-            
-            To:
-            <select  name="to" id="to">
-              <option value="none">To</option>
-              <option value="atsu">atsu</option>
-            </select>
+            <div id="account" class="container">
+              Account:
+              <select></select>
+            </div>
+            <div id="transfer" class="container">
+              From:
+              <select name="from" id="from">
+                <option value="none">From</option>
+                <option value="koki">koki</option>
+              </select>
+              To:
+              <select  name="to" id="to">
+                <option value="none">To</option>
+                <option value="atsu">atsu</option>
+              </select>
+            </div>
             Category:
-            <select></select>
+            <select name="category">
+              <option>none</option>
+              <option value="addcategory" >add category</option>
+            </select>
           </div>
-          <div class="container m-3">
+          <div id="categorybox" class="container m-3">
             <input type="text" id="category" />
             <button type="button">Add new category</button>
           </div>
@@ -69,10 +74,9 @@
           </div>
 
         </form>
-        <div id="test">test</div>
-        
-        Account summary
-        <ul></ul>
+        <div id="summary">
+          Account summary 
+        </div>
         Filter by account:
         <select></select>
         <table id="table" class="container m-3 d-grid">

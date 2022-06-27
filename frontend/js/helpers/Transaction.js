@@ -3,47 +3,10 @@ let fromname = ""
 let toname = ""
 let Username = ""
 let transaction = ""
-let tranArr
+let tranArr = []
 let test
 let userObj
-
-// $.ajax({
-//   method: 'get',
-//   url: 'http://localhost:3000/accounts',
-//   dataType: 'json',
-// }).done((data) => {
-//   // console.log('data get ajax', data);
-//   // console.log(data);
-//   $.each(data, (i, post) => {
-//     Username = post.username
-//     console.log(Username, post.transactions);
-//     console.log("GET", post);
-//     userObj = post.transactions
-//     // if (!post.transactions == []) {
-//     //   console.log(post.transactions[0].amount);
-//     //   test = new Deposit(Number(post.transactions[0].amount), post.transactions[0])
-//     //   test.commit();
-//     //   console.log('Transaction 1:', test);
-//     // }
-
-//   });
-// });
-// $('#addtran').click((e) => {
-//   var radiobtn = $('input[name="type"]:checked').val();
-//   e.preventDefault();
-//   radiovalue = radiobtn;
-// })
-// $('[name=from]').change(() => {
-//   let name = $('[name=from] option:selected').text();
-//   fromname = name
-//   console.log(name);
-// });
-// $('[name=to]').change(() => {
-//   let name = $('[name=to] option:selected').text();
-//   toname = name
-//   console.log(name);
-// });
-
+let total = 0
 $('#addtran').on('click', (e) => {
   let radiobtn = $('input[name="type"]:checked').val();
   e.preventDefault();
@@ -56,7 +19,7 @@ $('#addtran').on('click', (e) => {
       {
         newTransaction: {
           accountId: 1,
-          balance: 0,
+          balance: total,
           username: "atsu",
           // username: Username,
           typeof: "deposit",
@@ -66,8 +29,8 @@ $('#addtran').on('click', (e) => {
           from: "koki",
           to: "atsu",
           txt: txt,
-          amount: 100,
-          // amount: $("#transamount").val(),
+          // amount: 100,
+          amount: Number($("#transamount").val()),
         }
       },
     ),
@@ -90,21 +53,13 @@ $('#addtran').on('click', (e) => {
           console.log(Username, post.transactions);
           console.log("GET", post);
           console.log("latest transaction",  post.transactions[(post.transactions.length -1)]);
-          // if(post.transactions == []){
+          tranArr.push(post.transactions[(post.transactions.length -1)])
+          console.log("testArr",tranArr[(tranArr.length -1)].balance);
           test = new Deposit(post.transactions, post.transactions[(post.transactions.length -1)])
           test.commit();
-          // }
-          // else{
-          //   test = new Deposit(Number(post.transactions[(post.transactions.length -1)].amount), post.transactions[(post.transactions.length -2)])
-          //   test.commit();
-          // }
+
           console.log('Transaction 1:', test);
         })
-        // if (!userObj == []) {
-        // console.log(userObj);
-        // test.commit();
-        // console.log('Transaction 1:', test);
-        // }
       });
 
       $.each(data, (i, post) => {
@@ -127,18 +82,14 @@ $('#addtran').on('click', (e) => {
       console.log(data);
     });
 });
-// const addTransaction =(data)=>{
-//   console.log(data);
-//   return data
-// }
 
 
 
-let testArry =[]
+let testArry =[0]
 class Transaction {
   constructor(newhistory, account) {
     console.log("newhistory", newhistory);
-    console.log("account", account);
+    // console.log("account", account);
     this.newhistory = newhistory;
     this.account = account;
   }
@@ -150,8 +101,24 @@ class Transaction {
     console.log("value", this.value)
     console.log("new balance(newhistory)", this.newhistory[(this.newhistory.length -1)].balance)
     console.log("previous balance", this.account.balance)
+    console.log("-------------");
     // return this.newhistory[(this.newhistory.length -1)].balance = this.value + this.account.balance
-    return this.newhistory.balance = this.value + this.account.balance
+    // let currentBalance = this.value + this.account.balance
+    total = this.value + this.account.balance
+    
+    // testArry.push(currentBalance)
+    testArry.push(total)
+    console.log('balance:', testArry);
+    // total = testArry.reduce((sum, element)=>{
+    //   return sum + element;
+    // },0)
+    console.log(total);
+    $("#summary").html(`
+    <p>Username : ${Username}</p>
+    <p>Balance : ${total}</p>
+    `)
+    return 
+    // return this.newhistory.balance = this.value + this.newaccount.balance
     // return balance
   }
 }
