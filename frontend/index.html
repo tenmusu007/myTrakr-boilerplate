@@ -21,63 +21,77 @@
   <body>
     myTrakr
     <main>
-      <div class="container,">
+      <div class="container">
         
         <form action="" class="container">
             New Account:
             <input type="text" />
-            <button>Add new account</button>
+            <button id="category">Add new account</button>
         </form>
         <form action="" class="container">
-          New Transaction: Deposit
-          <input type="radio" />
+          New Transaction: 
+          Deposit
+          <input type="radio" name="type" value="deposit"/>
           Withdraw
-          <input type="radio" />
+          <input type="radio" name="type" value="withdraw"/>
           Transfer
-          <input type="radio" />
+          <input type="radio" name="type" value="transfer" />
           <div class="container m-3">
-            Account:
-            <select></select>
-            
-            From:
-            <select></select>
-            
-            To:
-            <select></select>
+            <div id="account" class="container">
+              Account:
+              <select></select>
+            </div>
+            <div id="transfer" class="container">
+              From:
+              <select name="from" id="from">
+                <option value="none">From</option>
+                <option value="koki">koki</option>
+              </select>
+              To:
+              <select  name="to" id="to">
+                <option value="none">To</option>
+                <option value="atsu">atsu</option>
+              </select>
+            </div>
             Category:
-            <select></select>
+            <select name="category">
+              <option>none</option>
+              <option value="addcategory" >add category</option>
+            </select>
           </div>
-          <div class="container m-3">
-            <input type="text" />
+          <div id="categorybox" class="container m-3">
+            <input type="text" id="category" />
             <button type="button">Add new category</button>
           </div>
           <div class="container m-3">
-
             Description
-            <input type="text" />
+            <input type="text"  id="transtxt"/>
             
             Amount:
-            <input type="number" />
+            <input type="number" id="transamount"/>
             
-            <button>Add transaction</button>
+            <button id="addtran">Add transaction</button>
           </div>
+
         </form>
-        
-        Account summary
-        <ul></ul>
+        <div id="summary">
+          Account summary 
+        </div>
         Filter by account:
         <select></select>
-        <table>
-          <tr>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Transaction Type</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>From</th>
-            <th>To</th>
-          </tr>
+        <table id="table" class="container m-3 d-grid">
+          <!-- <tbody class="d-inline-flex"> -->
+            <tr class="table" >
+              <th scope="row" id="tbId">Id</th>
+              <th id="tbUsername">Username</th>
+              <th id="tbtype">Transaction Type</th>
+              <th id="tbCategory">Category</th>
+              <th id="tbDescription">Description</th>
+              <th id="tbAmount">Amount</th>
+              <th id="tbFrom">From</th>
+              <th id="tbTo">To</th>
+            </tr>
+          <!-- </tbody> -->
         </table>
     </div>
     </main>
