@@ -2,6 +2,7 @@ let radiovalue = ""
 let fromname = ""
 let toname = ""
 let Username = ""
+let Category =""
 let transaction = ""
 let tranArr = []
 let deposit
@@ -12,7 +13,7 @@ $('#addtran').on('click', (e) => {
   let radiobtn = $('input[name="type"]:checked').val();
   e.preventDefault();
   radiovalue = radiobtn;
-  console.log(radiovalue);
+  // console.log(radiovalue);
   let txt = $("#transtxt").val();
   // let amount = Number($("#transa mount").val())
   // if (radiovalue === "withdraw") {
@@ -30,7 +31,7 @@ $('#addtran').on('click', (e) => {
           // username: Username,
           // typeof: "deposit",
           typeof: radiovalue,
-          category: "food",
+          category: Category,
           from: "koki",
           to: "atsu",
           txt: txt,
@@ -53,16 +54,16 @@ $('#addtran').on('click', (e) => {
         url: 'http://localhost:3000/accounts',
         dataType: 'json',
       }).done((data2) => {
-        console.log('"indiv Account"', data2);
+        // console.log('"indiv Account"', data2);
         $.each(data2, (i, post) => {
           Username = post.username;
-          console.log(Username, post.transactions);
+          // console.log(Username, post.transactions);
 
-          console.log("GET", post);
-          console.log("latest transaction", post.transactions[(post.transactions.length - 1)]);
+          // console.log("GET", post);
+          // console.log("latest transaction", post.transactions[(post.transactions.length - 1)]);
           // tranArr.push(post.transactions[(post.transactions.length - 1)])
           // console.log("testArr", tranArr[(tranArr.length - 1)].balance);
-          console.log("transaction", post.transactions.typeof);
+          // console.log("transaction", post.transactions.typeof);
           // if (post.transactions.typeof ===undefined) {
           //   return alert("select Transaction")
           // }else 
@@ -115,12 +116,12 @@ class Transaction {
     // if (this.value < 0 && this.amount > this.account.balance) return;
     // this.account.transactions.push(this.value);
     // this.account.balance += this.value;
-    console.log("account", this.account)
-    console.log("value", this.value)
-    console.log("new balance(newhistory)", this.newhistory[(this.newhistory.length - 1)].balance)
-    console.log("previous balance", this.account.balance)
-    console.log("previous amount", this.account.amount)
-    console.log("-------------");
+    // console.log("account", this.account)
+    // console.log("value", this.value)
+    // console.log("new balance(newhistory)", this.newhistory[(this.newhistory.length - 1)].balance)
+    // console.log("previous balance", this.account.balance)
+    // console.log("previous amount", this.account.amount)
+    // console.log("-------------");
     if (this.value < 0 && this.account.balance < this.account.amount) {
       console.log("faile");
       total = "erro"
@@ -133,7 +134,7 @@ class Transaction {
 
     // testArry.push(total)
     // console.log('balance:', testArry);
-    console.log(total);
+    // console.log(total);
     $('#summary').html(`
     <p>Username : ${Username}</p>
     <p>Balance : ${total}</p>
