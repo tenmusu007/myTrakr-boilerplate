@@ -52,41 +52,10 @@ $(() => {
       });
       if (inputVal !== '' && data.length === 0) {
         //first add
-        $.ajax({
-          method: 'post',
-          url: 'http://localhost:3000/accounts',
-          dataType: 'json',
-          data: jsonData,
-          contentType: 'application/json',
-        })
-          .done((data) => {
-            console.log('first success', data);
-            users.push(new Account(data.username, data.transactions));
-            $('#selectUser').append(
-              $('<option>').html(data.username).val(data.username)
-            );
-          })
-          .fail((error) => {
-            console.log('error', error);
-          });
+        addUserJson(jsonData, 'Success to add user for the first time');
       } else if (inputVal !== '' && data.length !== 0) {
-        $.ajax({
-          method: 'post',
-          url: 'http://localhost:3000/accounts',
-          dataType: 'json',
-          data: jsonData,
-          contentType: 'application/json',
-        })
-          .done((data) => {
-            console.log('success', data);
-            users.push(new Account(data.username, data.transactions));
-            $('#selectUser').append(
-              $('<option>').html(data.username).val(data.username)
-            );
-          })
-          .fail((error) => {
-            console.log('error', error);
-          });
+        // after first add
+        addUserJson(jsonData, 'Success to add user');
       } else {
         message = 'Error username is invalid';
         console.log(message);
@@ -94,21 +63,42 @@ $(() => {
       event.preventDefault();
     });
     // console.log(users);
-    const setUser = () => {
-      $('[name=username]').change(() => {
-        let selectedUser = $('[name=username]').val();
-        for (let index = 0; index < users.length; index++) {
-          if (users[index].username === selectedUser) {
-            console.log(users[index]);
-            $('#summary').html(`
-              <p>Username : ${users[index].username}</p>
-              <p>Balance : ${users[index].balance}</p>
-            `);
-            return users[index];
-          }
-        }
-      });
-    };
     setUser();
   });
 });
+
+const setUser = () => {
+  $('[name=username]').change(() => {
+    let selectedUser = $('[name=username]').val();
+    for (let index = 0; index < users.length; index++) {
+      if (users[index].username === selectedUser) {
+        console.log(users[index]);
+        $('#summary').html(`
+              <p>Username : ${users[index].username}</p>
+              <p>Balance : ${users[index].balance}</p>
+            `);
+        return users[index];
+      }
+    }
+  });
+};
+
+const addUserJson = (jsonData, message) => {
+  $.ajax({
+    method: 'post',
+    url: 'http://localhost:3000/accounts',
+    dataType: 'json',
+    data: jsonData,
+    contentType: 'application/json',
+  })
+    .done((data) => {
+      console.log(message, data);
+      users.push(new Account(data.username, data.transactions));
+      $('#selectUser').append(
+        $('<option>').html(data.username).val(data.username)
+      );
+    })
+    .fail((error) => {
+      console.log('error', error);
+    });
+};
