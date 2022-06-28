@@ -39,10 +39,10 @@ $('#addtran').on('click', (e) => {
           // radiovalue === "withdraw" ? -amount : amount,
         }
       },
-    ),
+    }),
     url: 'http://localhost:3000/transaction',
     dataType: 'json',
-    contentType: "application/json",
+    contentType: 'application/json',
   })
     .done((data) => {
       // console.log('data post ajax', data)
@@ -55,8 +55,9 @@ $('#addtran').on('click', (e) => {
       }).done((data2) => {
         console.log('"indiv Account"', data2);
         $.each(data2, (i, post) => {
-          Username = post.username
+          Username = post.username;
           console.log(Username, post.transactions);
+
           console.log("GET", post);
           console.log("latest transaction", post.transactions[(post.transactions.length - 1)]);
           // tranArr.push(post.transactions[(post.transactions.length - 1)])
@@ -99,6 +100,7 @@ $('#addtran').on('click', (e) => {
     });
 });
 
+let testArry = [0];
 
 
 class Transaction {
@@ -132,7 +134,7 @@ class Transaction {
     // testArry.push(total)
     // console.log('balance:', testArry);
     console.log(total);
-    $("#summary").html(`
+    $('#summary').html(`
     <p>Username : ${Username}</p>
     <p>Balance : ${total}</p>
     `)
@@ -155,3 +157,4 @@ class Deposit extends Transaction {
 }
 // const myAccount = new Account('Koki Sakai');
 console.log('Final:', withdrawal, deposit);
+
