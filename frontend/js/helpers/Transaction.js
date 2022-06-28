@@ -26,7 +26,7 @@ $('#addtran').on('click', (e) => {
         newTransaction: {
           accountId: 1,
           balance: total,
-          username: "atsu",
+          username: Username,
           // username: Username,
           // typeof: "deposit",
           typeof: radiovalue,
@@ -39,7 +39,7 @@ $('#addtran').on('click', (e) => {
           // radiovalue === "withdraw" ? -amount : amount,
         }
       },
-    }),
+    ),
     url: 'http://localhost:3000/transaction',
     dataType: 'json',
     contentType: 'application/json',
