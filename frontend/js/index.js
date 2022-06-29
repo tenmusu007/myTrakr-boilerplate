@@ -165,16 +165,16 @@ $(() => {
 
 // Koki part /////////////////////////////////////
 const setUser = (data) => {
-  $('[name=username]').change(() => {
-    let selectedUser = $('[name=username]').val();
-    for (let index = 0; index < data.length; index++) {
-      if (data[index].username === selectedUser) {
-        $('#summary').html(`
-              <p>Username : ${data[index].username}</p>
-              <p>Balance : ${data[index].balance}</p>
-            `);
-      }
-    }
+  // $('[name=username]').change(() => {
+  //   let selectedUser = $('[name=username]').val();
+  //   for (let index = 0; index < data.length; index++) {
+  //     if (data[index].username === selectedUser) {
+  //       $('#summary').html(`
+  //             <p>Username : ${data[index].username}</p>
+  //             <p>Balance : ${data[index].balance}</p>
+  //           `);
+  //     }
+  //   }
     let setUser;
     $('[name=username]').change(() => {
       let selectedUser = $('[name=username]').val();
@@ -188,9 +188,9 @@ const setUser = (data) => {
         }
       }
     });
-    addUserSelectBox(data);
-    console.log("sss");    
-  });
+    // addUserSelectBox(data);
+    // console.log("sss");    
+  // });
 };
 // add transaction data to json
 $('#addtran').on('click', (e) => {
