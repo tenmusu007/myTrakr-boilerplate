@@ -1,4 +1,5 @@
 $(() => {
+  
   // Account to /////
   $('[name=to]').change(() => {
     let name = $('[name=to] option:selected').text();
@@ -32,6 +33,15 @@ $(() => {
   });
 
   // categroy
+  $.ajax({
+    method: 'get',
+    url: 'http://localhost:3000/categories',
+    dataType: 'json',
+  })
+    .done((data) => {
+      console.log("atsu", data);
+      renderCategory(data)
+    });
   $("#categorybox").hide()
   $('[name=category]').change(() => {
     let test = $('[name=category] option:selected').text();
@@ -59,26 +69,8 @@ $(() => {
               dataType: 'json',
             })
               .done((data) => {
-                const list = $.map(data, (value, index) => {
-                  return ` <option value="${value.name.name}" key="">${value.name.name}</option>
-                        
-                      `
-                })
-                $("#categoryselect").empty()
-                $("#categoryselect").append(
-                  `
-                    <option id="none">none</option>
-                    <option id="addcategory" value="addcategory" >add category</option>
-                    `
-                );
-                $('#categoryselect').append(
-                  $.each(list, (i, post) => {
-                    `
-                      ${post}
-
-                      `;
-                  })
-                );
+                console.log("atsu", data);
+                renderCategory(data)
               });
           })
       });
@@ -160,7 +152,31 @@ $(() => {
   })
 })
 
+// const getCategory = ()=>{
+  
+// }
+const renderCategory =(data)=>{
+  const list = $.map(data, (value, index) => {
+    return ` <option value="${value.name.name}" key="">${value.name.name}</option>
+          
+        `
+  })
+  $("#categoryselect").empty()
+  $("#categoryselect").append(
+    `
+      <option id="none">none</option>
+      <option id="addcategory" value="addcategory" >add category</option>
+      `
+  );
+  $('#categoryselect').append(
+    $.each(list, (i, post) => {
+      `
+        ${post}
 
+        `;
+    })
+  );
+}
 
 // Koki part /////////////////////////////////////
 const setUser = (data) => {
