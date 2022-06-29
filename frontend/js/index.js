@@ -1,5 +1,5 @@
 $(() => {
-  //Start coding here!
+  // Account to /////
   $('[name=to]').change(() => {
     let name = $('[name=to] option:selected').text();
     toname = name;
@@ -53,7 +53,6 @@ $(() => {
           contentType: 'application/json',
         })
           .done((data) => {
-            // console.log('data post ajax', data)
             $.ajax({
               method: 'get',
               url: 'http://localhost:3000/categories',
@@ -71,23 +70,22 @@ $(() => {
                     <option id="none">none</option>
                     <option id="addcategory" value="addcategory" >add category</option>
                     `
-              );
-              $('#categoryselect').append(
-                $.each(list, (i, post) => {
-                  `
+                );
+                $('#categoryselect').append(
+                  $.each(list, (i, post) => {
+                    `
                       ${post}
 
                       `;
-                })
-              );
-            });
+                  })
+                );
+              });
           })
-          .fail((data) => {});
+          .fail((data) => { });
       });
     }
   })
-  // filter/////
-
+  
   // accounts////////////
   $.ajax({
     method: 'get',
@@ -111,12 +109,9 @@ $(() => {
         message = 'Error username is invalid';
         console.log(message);
       }
-      // event.preventDefault();
-
     });
-
-    // console.log(users);
-    // filter by account
+    
+    // filter/////
     $('[name=filter]').change(() => {
       console.log("yse");
       let filterName = $('[name=filter] option:selected').text();
@@ -127,24 +122,23 @@ $(() => {
           // console.log(value.username);
           // console.log("pass");
           return value.transactions;
-        }else{
+        } else {
           $('#table').empty
         }
       })
       // console.log("tran",filterList[0].transactions.length);
-      // console.log(filterList);
-      // $('#tableTitle').empty()
-      if(filterList[0].transactions.length > 0){
+      console.log(filterList);
+      if (filterList[0].transactions.length > 0) {
         $('#table #transactionTable').remove();
-        $.each(filterList, (index, value) =>{
+        $.each(filterList, (index, value) => {
           // console.log(value);
           for (const key in value.transactions) {
             console.log(value.transactions[key]);
             $('#table').append(
               `
               <tr class="table" id="transactionTable">
-                <td>${value.id}</td>
-                <td>${value.username}</td>
+              <td>${value.id}</td>
+              <td>${value.username}</td>
                 <td>${value.transactions[key].typeof}</td>
                 <td>${value.transactions[key].category}</td>
                 <td>${value.transactions[key].txt}</td>
@@ -153,48 +147,36 @@ $(() => {
                 <td>${value.transactions[key].to}</td>
               </tr>
               `
-              );
-            }
-          })
-        }
-        else{
-          $('#table1').empty()
-          console.log("transaction empty");
-        }
-      // const filterMap = $.map(filterList, (post, i) => {
-      //   // console.log(post.transactions);
-      //   return
-      // });
+            );
+          }
+        })
+      }
+      else {
+        $('#table1').empty()
+        console.log("transaction empty");
+      }
     });
     setUser(data);
     addUserSelectBox(data);
-    // checkUserId(data)
-
-    console.log(data);
   })
 })
 
-// const checkUserId =(data)=>{
-//   console.log(data[0].id);
-// }
+
 
 // Koki part /////////////////////////////////////
 const setUser = (data) => {
   $('[name=username]').change(() => {
     let selectedUser = $('[name=username]').val();
-    // test(selectedUser)
     for (let index = 0; index < data.length; index++) {
       if (data[index].username === selectedUser) {
-        // console.log(data[index]);
         $('#summary').html(`
               <p>Username : ${data[index].username}</p>
               <p>Balance : ${data[index].balance}</p>
             `);
-        return data[index];
-
+      }
+    }
     let setUser;
     $('[name=username]').change(() => {
-      // $('#table .tableTra').remove();
       let selectedUser = $('[name=username]').val();
       for (let index = 0; index < data.length; index++) {
         if (data[index].username === selectedUser) {
@@ -205,55 +187,43 @@ const setUser = (data) => {
           setUser = data[index];
         }
       }
-      // for (let index = 0; index < setUser.transactions.length; index++) {
-      //   $('#table').append(`
-      //     <tr class="tableTra">
-      //       <td>${setUser.transactions[index].accountId}</td>
-      //       <td>${setUser.username}</td>
-      //       <td>${setUser.transactions[index].transactionType}</td>
-      //       <td>${setUser.transactions[index].category}</td>
-      //       <td>${setUser.transactions[index].description}</td>
-      //       <td>${setUser.transactions[index].amount}</td>
-      //     </tr>
-      //   `);
-      // }
     });
     addUserSelectBox(data);
+    console.log("sss");    
+  });
+};
+// add transaction data to json
+$('#addtran').on('click', (e) => {
+  console.log("YES");
+  let accountId = setUser.id;
+  let transactionType = $('input[name="type"]:checked').val();
+  let description = $('#transtxt').val();
+  let amount = Number($('#transamount').val());
+  let accountIdTo = 0;
+  jsonTransactionData = JSON.stringify({
+    newTransaction: {
+      accountId: accountId,
+      accountIdFrom: '',
+      accountIdTo: '',
+      transactionType: transactionType,
+      category: '',
+      description: description,
+      amount: amount,
+    },
+  });
 
-    // add transaction data to json
-    $('#addtran').on('click', (e) => {
-      // console.log(setUser);
-      let accountId = setUser.id;
-      let transactionType = $('input[name="type"]:checked').val();
-      let description = $('#transtxt').val();
-      let amount = Number($('#transamount').val());
-      accountIdTo = 0;
-      jsonTransactionData = JSON.stringify({
-        newTransaction: {
-          accountId: accountId,
-          accountIdFrom: '',
-          accountIdTo: '',
-          transactionType: transactionType,
-          category: '',
-          description: description,
-          amount: amount,
-        },
-      });
+  e.preventDefault();
+  // console.log(description);
 
-      e.preventDefault();
-      console.log(description);
-
-      $.ajax({
-        method: 'post',
-        data: jsonTransactionData,
-        url: 'http://localhost:3000/transaction',
-        dataType: 'json',
-        contentType: 'application/json',
-      }).done((data) => {
-        console.log('Post transaction', data);
-        // post.transactions[post.transactions.length - 1].typeof == 'withdraw';
-      });
-    });
+  $.ajax({
+    method: 'post',
+    data: jsonTransactionData,
+    url: 'http://localhost:3000/transaction',
+    dataType: 'json',
+    contentType: 'application/json',
+  }).done((data) => {
+    console.log('Post transaction', data);
+    // post.transactions[post.transactions.length - 1].typeof == 'withdraw';
   });
 });
 
@@ -276,14 +246,7 @@ const setUser = (data) => {
 // };
 
 const addUserSelectBox = (data) => {
-  for (let index = 0; index < data.length; index++) {
-    $('#selectUser').append(
-      $('<option>').html(data[index].username).val(data[index].username)
-    );
-  }
-};
-const addUserSelectBox = (data) => {
-  console.log(data);
+  // console.log(data);
   for (let index = 0; index < data.length; index++) {
     $('#selectUser').append(
       $('<option>').html(data[index].username).val(data[index].username)
