@@ -1,4 +1,5 @@
 $(() => {
+  
   // Account to /////
   $('[name=to]').change(() => {
     let name = $('[name=to] option:selected').text();
@@ -32,7 +33,17 @@ $(() => {
   });
 
   // categroy
-  $('#categorybox').hide();
+
+  $.ajax({
+    method: 'get',
+    url: 'http://localhost:3000/categories',
+    dataType: 'json',
+  })
+    .done((data) => {
+      console.log("atsu", data);
+      renderCategory(data)
+    });
+  $("#categorybox").hide()
   $('[name=category]').change(() => {
     let test = $('[name=category] option:selected').text();
     // console.log(test);
@@ -57,30 +68,13 @@ $(() => {
               method: 'get',
               url: 'http://localhost:3000/categories',
               dataType: 'json',
-            }).done((data) => {
-              const list = $.map(data, (value, index) => {
-                return ` <option value="${value.name.name}" key="">${value.name.name}</option>
-
-                      `;
+            })
+              .done((data) => {
+                console.log("atsu", data);
+                renderCategory(data)
               });
-              $('#categoryselect').empty();
-              $('#categoryselect').append(
-                `
-                    <option id="none">none</option>
-                    <option id="addcategory" value="addcategory" >add category</option>
-                    `
-              );
-              $('#categoryselect').append(
-                $.each(list, (i, post) => {
-                  `
-                      ${post}
-
-                      `;
-                })
-              );
-            });
           })
-          .fail((data) => {});
+
       });
     }
   });
@@ -152,7 +146,50 @@ $(() => {
         console.log('transaction empty');
       }
     });
+    setUser(data);
+    addUserSelectBox(data);
+  })
+})
 
+// const getCategory = ()=>{
+  
+// }
+const renderCategory =(data)=>{
+  const list = $.map(data, (value, index) => {
+    return ` <option value="${value.name.name}" key="">${value.name.name}</option>
+          
+        `
+  })
+  $("#categoryselect").empty()
+  $("#categoryselect").append(
+    `
+      <option id="none">none</option>
+      <option id="addcategory" value="addcategory" >add category</option>
+      `
+  );
+  $('#categoryselect').append(
+    $.each(list, (i, post) => {
+      `
+        ${post}
+
+        `;
+    })
+  );
+}
+
+// Koki part /////////////////////////////////////
+const setUser = (data) => {
+  // $('[name=username]').change(() => {
+  //   let selectedUser = $('[name=username]').val();
+  //   for (let index = 0; index < data.length; index++) {
+  //     if (data[index].username === selectedUser) {
+  //       $('#summary').html(`
+  //             <p>Username : ${data[index].username}</p>
+  //             <p>Balance : ${data[index].balance}</p>
+  //           `);
+  //     }
+  //   }
+    let setUser;
     $('[name=username]').change(() => {
       let selectedUser = $('[name=username]').val();
       for (let index = 0; index < data.length; index++) {
