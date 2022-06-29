@@ -75,10 +75,12 @@
         </form>
         <div id="summary">Account summary</div>
         Filter by account:
-        <select></select>
+        <select id="filterselct" name="filter">
+          <option value="username">Select user name</option>
+        </select>
         <table id="table" class="container m-3 d-grid">
           <!-- <tbody class="d-inline-flex"> -->
-          <tr class="table">
+          <tr class="table" id="tableTitle">
             <th scope="row" id="tbId">Id</th>
             <th id="tbUsername">Username</th>
             <th id="tbtype">Transaction Type</th>
