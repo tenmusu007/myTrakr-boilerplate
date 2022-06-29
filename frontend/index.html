@@ -22,24 +22,24 @@
     myTrakr
     <main>
       <div class="container">
-        
-        <form action="" class="container">
-            New Account:
-            <input type="text" />
-            <button id="category">Add new account</button>
+        <form action="" class="container" id="newUser">
+          New Account:
+          <input type="text" id="newUserName" />
+          <button id="btnAddAccount">Add new account</button>
         </form>
         <form action="" class="container">
-          New Transaction: 
-          Deposit
-          <input type="radio" name="type" value="deposit"/>
+          New Transaction: Deposit
+          <input type="radio" name="type" value="deposit" checked />
           Withdraw
-          <input type="radio" name="type" value="withdraw"/>
+          <input type="radio" name="type" value="withdraw" />
           Transfer
           <input type="radio" name="type" value="transfer" />
           <div class="container m-3">
             <div id="account" class="container">
               Account:
-              <select></select>
+              <select id="selectUser" name="username">
+                <option value="username">Select user name</option>
+              </select>
             </div>
             <div id="transfer" class="container">
               From:
@@ -48,52 +48,51 @@
                 <option value="koki">koki</option>
               </select>
               To:
-              <select  name="to" id="to">
+              <select name="to" id="to">
                 <option value="none">To</option>
                 <option value="atsu">atsu</option>
               </select>
             </div>
             Category:
-            <select name="category">
-              <option>none</option>
-              <option value="addcategory" >add category</option>
+            <select id="categoryselect" name="category">
+              <option id="none">none</option>
+              <option id="addcategory" value="addcategory">add category</option>
             </select>
           </div>
           <div id="categorybox" class="container m-3">
-            <input type="text" id="category" />
-            <button type="button">Add new category</button>
+            <input type="text" id="categoryinput" />
+            <button id="addvategorybtn" type="button">Add new category</button>
           </div>
           <div class="container m-3">
             Description
-            <input type="text"  id="transtxt"/>
-            
+            <input type="text" id="transtxt" />
+
             Amount:
-            <input type="number" id="transamount"/>
-            
+            <input type="number" id="transamount" />
+
             <button id="addtran">Add transaction</button>
           </div>
-
         </form>
-        <div id="summary">
-          Account summary 
-        </div>
+        <div id="summary">Account summary</div>
         Filter by account:
-        <select></select>
+        <select id="filterselct" name="filter">
+          <option value="username">Select user name</option>
+        </select>
         <table id="table" class="container m-3 d-grid">
           <!-- <tbody class="d-inline-flex"> -->
-            <tr class="table" >
-              <th scope="row" id="tbId">Id</th>
-              <th id="tbUsername">Username</th>
-              <th id="tbtype">Transaction Type</th>
-              <th id="tbCategory">Category</th>
-              <th id="tbDescription">Description</th>
-              <th id="tbAmount">Amount</th>
-              <th id="tbFrom">From</th>
-              <th id="tbTo">To</th>
-            </tr>
+          <tr class="table" id="tableTitle">
+            <th scope="row" id="tbId">Id</th>
+            <th id="tbUsername">Username</th>
+            <th id="tbtype">Transaction Type</th>
+            <th id="tbCategory">Category</th>
+            <th id="tbDescription">Description</th>
+            <th id="tbAmount">Amount</th>
+            <th id="tbFrom">From</th>
+            <th id="tbTo">To</th>
+          </tr>
           <!-- </tbody> -->
         </table>
-    </div>
+      </div>
     </main>
     <script src="./js/helpers/Account.js"></script>
     <script src="./js/helpers/Category.js"></script>
