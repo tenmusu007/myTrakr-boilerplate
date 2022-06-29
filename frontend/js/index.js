@@ -2,8 +2,8 @@ $(() => {
   //Start coding here!
   $('[name=to]').change(() => {
     let name = $('[name=to] option:selected').text();
-    toname = name
-    console.log(name);
+    toname = name;
+    // console.log(name);
   });
 
   $('[name=type]').change((e) => {
@@ -22,7 +22,7 @@ $(() => {
 
   $('[name=category]').change(() => {
     let category = $('[name=category] option:selected').text();
-    Category = category
+    Category = category;
     // console.log(Category);
   });
 
@@ -36,23 +36,21 @@ $(() => {
   $('[name=category]').change(() => {
     let test = $('[name=category] option:selected').text();
     // console.log(test);
-    if (test === "add category") {
-      $("#categorybox").show()
-      $("#addvategorybtn").on("click", (e) => {
+    if (test === 'add category') {
+      $('#categorybox').show();
+      $('#addvategorybtn').on('click', (e) => {
         e.preventDefault();
-        let newcategory = $("#categoryinput").val()
+        let newcategory = $('#categoryinput').val();
         $.ajax({
           method: 'post',
-          data: JSON.stringify(
-            {
-              newCategory: {
-                name: newcategory,
-              }
+          data: JSON.stringify({
+            newCategory: {
+              name: newcategory,
             },
-          ),
+          }),
           url: 'http://localhost:3000/categories',
           dataType: 'json',
-          contentType: "application/json",
+          contentType: 'application/json',
         })
           .done((data) => {
             // console.log('data post ajax', data)
@@ -73,20 +71,19 @@ $(() => {
                     <option id="none">none</option>
                     <option id="addcategory" value="addcategory" >add category</option>
                     `
-                )
-                $("#categoryselect").append(
-                  $.each(list, (i, post) => {
-                    `
+              );
+              $('#categoryselect').append(
+                $.each(list, (i, post) => {
+                  `
                       ${post}
-                      
-                      `
-                  })
-                )
-              })
+
+                      `;
+                })
+              );
+            });
           })
-          .fail((data) => {
-          });
-      })
+          .fail((data) => {});
+      });
     }
   })
   // filter/////
@@ -100,25 +97,24 @@ $(() => {
     //add new users
     $('#btnAddAccount').click(function (event) {
       let inputVal = $('#newUserName').val();
-      jsonData = JSON.stringify({
-        newAccount: {
-          username: inputVal,
-          transactions: [],
-        },
-      });
-      if (inputVal !== '' && data.length === 0) {
-        //first add
+      if (inputVal !== '') {
+        user = new Account(inputVal, []);
+        jsonData = JSON.stringify({
+          newAccount: {
+            username: user.username,
+            transactions: user.transactions,
+            balance: user.balance,
+          },
+        });
         addUserJson(jsonData, 'Success to add user for the first time');
-      } else if (inputVal !== '' && data.length !== 0) {
-        // after first add
-        addUserJson(jsonData, 'Success to add user');
       } else {
         message = 'Error username is invalid';
-        // console.log(message);
+        console.log(message);
       }
       // event.preventDefault();
 
     });
+
     // console.log(users);
     // filter by account
     $('[name=filter]').change(() => {
@@ -195,9 +191,96 @@ const setUser = (data) => {
               <p>Balance : ${data[index].balance}</p>
             `);
         return data[index];
+
+    let setUser;
+    $('[name=username]').change(() => {
+      // $('#table .tableTra').remove();
+      let selectedUser = $('[name=username]').val();
+      for (let index = 0; index < data.length; index++) {
+        if (data[index].username === selectedUser) {
+          $('#summary').html(`
+            <p>Username : ${data[index].username}</p>
+            <p class="balance">Balance : ${data[index].balance}</p>
+          `);
+          setUser = data[index];
+        }
       }
-    }
+      // for (let index = 0; index < setUser.transactions.length; index++) {
+      //   $('#table').append(`
+      //     <tr class="tableTra">
+      //       <td>${setUser.transactions[index].accountId}</td>
+      //       <td>${setUser.username}</td>
+      //       <td>${setUser.transactions[index].transactionType}</td>
+      //       <td>${setUser.transactions[index].category}</td>
+      //       <td>${setUser.transactions[index].description}</td>
+      //       <td>${setUser.transactions[index].amount}</td>
+      //     </tr>
+      //   `);
+      // }
+    });
+    addUserSelectBox(data);
+
+    // add transaction data to json
+    $('#addtran').on('click', (e) => {
+      // console.log(setUser);
+      let accountId = setUser.id;
+      let transactionType = $('input[name="type"]:checked').val();
+      let description = $('#transtxt').val();
+      let amount = Number($('#transamount').val());
+      accountIdTo = 0;
+      jsonTransactionData = JSON.stringify({
+        newTransaction: {
+          accountId: accountId,
+          accountIdFrom: '',
+          accountIdTo: '',
+          transactionType: transactionType,
+          category: '',
+          description: description,
+          amount: amount,
+        },
+      });
+
+      e.preventDefault();
+      console.log(description);
+
+      $.ajax({
+        method: 'post',
+        data: jsonTransactionData,
+        url: 'http://localhost:3000/transaction',
+        dataType: 'json',
+        contentType: 'application/json',
+      }).done((data) => {
+        console.log('Post transaction', data);
+        // post.transactions[post.transactions.length - 1].typeof == 'withdraw';
+      });
+    });
   });
+});
+
+// const setUser = (data) => {
+//   let result;
+//   $('[name=username]').change(() => {
+//     let selectedUser = $('[name=username]').val();
+//     for (let index = 0; index < data.length; index++) {
+//       if (data[index].username === selectedUser) {
+//         $('#summary').html(`
+//         <p>Username : ${data[index].username}</p>
+//         <p>Balance : ${data[index].balance}</p>
+//         `);
+//         console.log(data[index]);
+//         result = data[index];
+//       }
+//     }
+//   });
+//   return result;
+// };
+
+const addUserSelectBox = (data) => {
+  for (let index = 0; index < data.length; index++) {
+    $('#selectUser').append(
+      $('<option>').html(data[index].username).val(data[index].username)
+    );
+  }
 };
 const addUserSelectBox = (data) => {
   console.log(data);
@@ -221,7 +304,9 @@ const addUserJson = (jsonData, message) => {
   })
     .done((data) => {
       console.log(message, data);
-      new Account(data.username, data.transactions);
+
+      // user = new Account(data.username, data.transactions);
+      console.log(user);
     })
     .fail((error) => {
       console.log('error', error);
