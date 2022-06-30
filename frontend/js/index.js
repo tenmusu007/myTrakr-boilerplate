@@ -1,5 +1,5 @@
 $(() => {
-  
+
   // Account to /////
   $('[name=to]').change(() => {
     let name = $('[name=to] option:selected').text();
@@ -40,7 +40,7 @@ $(() => {
     dataType: 'json',
   })
     .done((data) => {
-      console.log("atsu", data);
+      // console.log("atsu", data);
       renderCategory(data)
     });
   $("#categorybox").hide()
@@ -146,50 +146,7 @@ $(() => {
         console.log('transaction empty');
       }
     });
-    setUser(data);
-    addUserSelectBox(data);
-  })
-})
 
-// const getCategory = ()=>{
-  
-// }
-const renderCategory =(data)=>{
-  const list = $.map(data, (value, index) => {
-    return ` <option value="${value.name.name}" key="">${value.name.name}</option>
-          
-        `
-  })
-  $("#categoryselect").empty()
-  $("#categoryselect").append(
-    `
-      <option id="none">none</option>
-      <option id="addcategory" value="addcategory" >add category</option>
-      `
-  );
-  $('#categoryselect').append(
-    $.each(list, (i, post) => {
-      `
-        ${post}
-
-        `;
-    })
-  );
-}
-
-// Koki part /////////////////////////////////////
-const setUser = (data) => {
-  // $('[name=username]').change(() => {
-  //   let selectedUser = $('[name=username]').val();
-  //   for (let index = 0; index < data.length; index++) {
-  //     if (data[index].username === selectedUser) {
-  //       $('#summary').html(`
-  //             <p>Username : ${data[index].username}</p>
-  //             <p>Balance : ${data[index].balance}</p>
-  //           `);
-  //     }
-  //   }
-    let setUser;
     $('[name=username]').change(() => {
       let selectedUser = $('[name=username]').val();
       for (let index = 0; index < data.length; index++) {
@@ -207,6 +164,60 @@ const setUser = (data) => {
     addUserSelectBox(data);
   });
 });
+// const getCategory = ()=>{
+
+// }
+const renderCategory = (data) => {
+  const list = $.map(data, (value, index) => {
+    return ` <option value="${value.name.name}" key="">${value.name.name}</option>
+          
+        `
+  })
+  $("#categoryselect").empty()
+  $("#categoryselect").append(
+    `
+      <option id="none">none</option>
+      <option id="addcategory" value="addcategory" >add category</option>
+      `
+  );
+  $('#categoryselect').append(
+    $.each(list, (i, post) => {
+      `
+        ${post}
+        `;
+    })
+  );
+}
+
+// Koki part /////////////////////////////////////
+// const setUser = (data) => {
+//   // $('[name=username]').change(() => {
+//   //   let selectedUser = $('[name=username]').val();
+//   //   for (let index = 0; index < data.length; index++) {
+//   //     if (data[index].username === selectedUser) {
+//   //       $('#summary').html(`
+//   //             <p>Username : ${data[index].username}</p>
+//   //             <p>Balance : ${data[index].balance}</p>
+//   //           `);
+//   //     }
+//   //   }
+//     // let setUser;
+//     // $('[name=username]').change(() => {
+//     //   let selectedUser = $('[name=username]').val();
+//     //   for (let index = 0; index < data.length; index++) {
+//     //     if (data[index].username === selectedUser) {
+//     //       $('#summary').html(`
+//     //         <p>Username : ${data[index].username}</p>
+//     //         <p class="balance">Balance : ${data[index].balance}</p>
+//     //       `);
+//     //       setUser = data[index];
+//     //       console.log(setUser);
+//     //     }
+//     //   }
+//     // });
+//     // setUser(data);
+//     addUserSelectBox(data);
+//   }
 
 // Koki part /////////////////////////////////////
 // const setUser = (data) => {
@@ -227,12 +238,13 @@ const setUser = (data) => {
 
 // add transaction data to json
 $('#addtran').on('click', (e) => {
+  console.log("test");
   let accountId = setUser.id;
   let transactionType = $('input[name="type"]:checked').val();
   let description = $('#transtxt').val();
   let amount = Number($('#transamount').val());
-  let accountIdTo = 0;
-  let accountIdFrom = 0;
+  // let accountIdTo = 0;
+  // let accountIdFrom = 0;
   jsonTransactionData = JSON.stringify({
     newTransaction: {
       accountId: accountId,
