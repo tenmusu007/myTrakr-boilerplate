@@ -18,30 +18,32 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./css/index.css" />
   </head>
-  <body>
-    myTrakr
+  <body class="FontColor">
+    <h1 class="container text-center FontColor">
+      myTrakr
+    </h1>
     <main>
       <div class="container">
-        <form action="" class="container" id="newUser">
+        <form action="" class="container m-3" id="newUser">
           New Account:
           <input type="text" id="newUserName" />
-          <button id="btnAddAccount">Add new account</button>
+          <button id="btnAddAccount" class="BtnBgColor text-white rounded border-0 m-2 p-2">Add new account</button>
         </form>
-        <form action="" class="container">
+        <form action="" class="container m-3">
           New Transaction: Deposit
           <input type="radio" name="type" value="deposit" checked />
           Withdraw
           <input type="radio" name="type" value="withdraw" />
           Transfer
           <input type="radio" name="type" value="transfer" />
-          <div class="container m-3">
-            <div id="account" class="container">
+          <div class="d-flex justify-content-between mt-5">
+            <div id="account" class="d-flex  justify-content-between">
               Account:
               <select id="selectUser" name="username">
                 <option value="username">Select user name</option>
               </select>
             </div>
-            <div id="transfer" class="container">
+            <div id="transfer" class="d-flex  justify-content-between">
               From:
               <select name="from" id="from">
                 <option value="none">From</option>
@@ -53,24 +55,26 @@
                 <option value="atsu">atsu</option>
               </select>
             </div>
-            Category:
-            <select id="categoryselect" name="category">
-              <option id="none">none</option>
-              <option id="addcategory" value="addcategory">add category</option>
-            </select>
+            <div class="d-flex justify-content-between">
+              Category:
+              <select id="categoryselect" name="category">
+                <option id="none">none</option>
+                <option id="addcategory" value="addcategory">add category</option>
+              </select>
+            </div>
           </div>
           <div id="categorybox" class="container m-3">
             <input type="text" id="categoryinput" />
-            <button id="addvategorybtn" type="button">Add new category</button>
+            <button id="addvategorybtn" type="button" class="bg-white p-2 FontColor BtnBorderColor">Add new category</button>
           </div>
-          <div class="container m-3">
+          <div class="mt-5">
             Description
             <input type="text" id="transtxt" />
 
             Amount:
             <input type="number" id="transamount" />
 
-            <button id="addtran">Add transaction</button>
+            <button id="addtran" class="bg-white p-2 FontColor BtnBorderColor" >Add transaction</button>
           </div>
         </form>
         <div id="summary">Account summary</div>
