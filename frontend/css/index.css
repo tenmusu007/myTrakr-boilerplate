@@ -1,9 +1,20 @@
-.FontColor{
+.Font{
     color: #c41f3e;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .BtnBgColor{
     background-color:#C41F3E;
 }
+.BtnTran{
+    background-color: white;
+}
 .BtnBorderColor{
     border: solid  1px #C41F3E;
+}
+.margin{
+    margin: 0rem 3rem 0rem 3rem;
+}
+.BtnHover:hover{
+    background-color:#8b1d41;
+    color: white;
 }
