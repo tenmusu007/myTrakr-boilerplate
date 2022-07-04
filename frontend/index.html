@@ -1,104 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>myTrakr</title>
-    <!-- jQuery file -->
-    <script src="./js/vendors/jquery.js"></script>
-    <!-- Bootstrap files -->
-    <script src="./js/vendors/bootstrap.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="./css/index.css" />
-  </head>
-  <body>
-    myTrakr
-    <main>
-      <div class="container">
-        <form action="" class="container" id="newUser">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyTrakr</title>
+  <!-- jQuery file -->
+  <script src="./js/vendors/jquery.js"></script>
+  <!-- Bootstrap files -->
+  <script src="./js/vendors/bootstrap.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./css/index.css" />
+</head>
+
+<body class="Font">
+  <main>
+    <h1 class="container text-center FontColor mb-4"> My Trakr </h1>
+    <div class="container mt-4">
+      <form action="" class="margin" id="newUser">
+        <label class="col-sm-3 control-label">
           New Account:
-          <input type="text" id="newUserName" />
-          <button id="btnAddAccount">Add new account</button>
-        </form>
-        <form action="" class="container">
-          New Transaction: Deposit
+        </label>
+        <input type="text" id="newUserName" />
+        <button id="btnAddAccount" class="BtnBgColor text-white rounded BtnHover border-0 ml-5 p-2">Add new
+          account</button>
+      </form>
+      <form action="" class="margin">
+        <div class="newTranBox mt-1 mb-1" >
+          <label class="col-sm-3 control-label">
+            New Transaction:
+          </label>
+          <!-- <div class="radioBtn"> -->
+            Deposit
           <input type="radio" name="type" value="deposit" checked />
           Withdraw
           <input type="radio" name="type" value="withdraw" />
           Transfer
           <input type="radio" name="type" value="transfer" />
-          <div class="container m-3">
-            <div id="account" class="container">
+          <!-- </div> -->
+        </div>
+        <div class="accountBox">
+          <div id="account" class="account mt-1 mb-1">
+            <label class="col-sm-3 control-label">
               Account:
-              <select id="selectUser" name="username">
-                <option value="username">Select user name</option>
-              </select>
-            </div>
-            <div id="transfer" class="container">
-              From:
-              <select name="from" id="from">
+            </label>
+            <select id="selectUser" name="username" class="pt-1 pb-1">
+              <option value="username">Select user name</option>
+            </select>
+          </div>
+          <div id="transfer" class="fromtoBox">
+            <div class="fromBox mt-1 mb-1">
+              <label class="col-sm-3 control-label">
+                From:
+              </label>
+              <select name="from" id="from" class="pt-1 pb-1">
                 <option value="none">From</option>
                 <option value="koki">koki</option>
               </select>
-              To:
-              <select name="to" id="to">
+            </div>
+            <div class="toBox mt-1 mb-1">
+              <label class="col-sm-3 control-label">
+                To:
+              </label>
+              <select name="to" id="to" class="pt-1 pb-1">
                 <option value="none">To</option>
                 <option value="atsu">atsu</option>
               </select>
             </div>
-            Category:
-            <select id="categoryselect" name="category">
+          </div>
+          <div class="category-box align-items-center mt-1 mb-1">
+            <label class="col-sm-3 control-label">
+              Category:
+            </label>
+            <select id="categoryselect" name="category" class="pt-1 pb-1">
               <option id="none">none</option>
               <option id="addcategory" value="addcategory">add category</option>
             </select>
+            <div id="categorybox" class="ml-5 mt-3 mb-3">
+              <input type="text" id="categoryinput" />
+              <button id="addvategorybtn" type="button" class="bg-white p-2 ml-5 Font BtnBorderColor">Add new
+                category</button>
+            </div>
           </div>
-          <div id="categorybox" class="container m-3">
-            <input type="text" id="categoryinput" />
-            <button id="addvategorybtn" type="button">Add new category</button>
-          </div>
-          <div class="container m-3">
-            Description
-            <input type="text" id="transtxt" />
-
-            Amount:
+        </div>
+        <div class="AmountDes">
+          <div class="mt-1 mb-1">
+            <label class="col-sm-3 control-label">
+              Amount:
+            </label>
             <input type="number" id="transamount" />
-
-            <button id="addtran">Add transaction</button>
           </div>
-        </form>
-        <div id="summary">Account summary</div>
-        Filter by account:
-        <select id="filterselct" name="filter">
-          <option value="username">Select user name</option>
-        </select>
-        <table id="table" class="container m-3 d-grid">
-          <!-- <tbody class="d-inline-flex"> -->
-          <tr class="table" id="tableTitle">
-            <th scope="row" id="tbId">Id</th>
-            <th id="tbUsername">Username</th>
-            <th id="tbtype">Transaction Type</th>
-            <th id="tbCategory">Category</th>
-            <th id="tbDescription">Description</th>
-            <th id="tbAmount">Amount</th>
-            <th id="tbFrom">From</th>
-            <th id="tbTo">To</th>
-          </tr>
-          <!-- </tbody> -->
-        </table>
+          <div class="mt-1 mb-1">
+            <label class="col-sm-3 control-label">
+              Description
+            </label>
+            <input type="text" id="transtxt" />
+          </div>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+          <button id="addtran" class="BtnTran p-2 Font BtnBorderColor BtnHover">Add transaction</button>
+        </div>
+      </form>
+      <div class="margin">
+        <label id="summary" class="col-sm-3 control-label">Account summary</label>
+        <div class="filterBox">
+          <label class="col-sm-3 control-label">
+            Filter by account:
+          </label>
+          <select id="filterselct" name="filter" class="pt-1 pb-1">
+            <option value="username">Select user name</option>
+          </select>
+        </div>
       </div>
-    </main>
-    <script src="./js/helpers/Account.js"></script>
-    <script src="./js/helpers/Category.js"></script>
-    <script src="./js/helpers/Common.js"></script>
-    <script src="./js/helpers/Transaction.js"></script>
-    <script src="./js/helpers/Transfer.js"></script>
-    <script src="./js/index.js"></script>
-  </body>
+      <table id="table" class="container m-3 d-grid">
+        <!-- <tbody class="d-inline-flex"> -->
+        <tr class="table" id="tableTitle">
+          <th scope="row" id="tbId">Id</th>
+          <th id="tbUsername">Username</th>
+          <th id="tbtype">Transaction Type</th>
+          <th id="tbCategory">Category</th>
+          <th id="tbDescription">Description</th>
+          <th id="tbAmount">Amount</th>
+          <th id="tbFrom">From</th>
+          <th id="tbTo">To</th>
+        </tr>
+        <!-- </tbody> -->
+      </table>
+    </div>
+  </main>
+  <script src="./js/helpers/Account.js"></script>
+  <script src="./js/helpers/Category.js"></script>
+  <script src="./js/helpers/Common.js"></script>
+  <script src="./js/helpers/Transaction.js"></script>
+  <script src="./js/helpers/Transfer.js"></script>
+  <script src="./js/index.js"></script>
+</body>
+
 </html>
