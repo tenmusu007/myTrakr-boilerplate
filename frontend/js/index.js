@@ -1,5 +1,5 @@
 $(() => {
-
+  $('#transfer').hide();
   // Account to /////
   $('[name=to]').change(() => {
     let name = $('[name=to] option:selected').text();
