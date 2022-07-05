@@ -6,7 +6,7 @@ $(() => {
     toname = name;
     // console.log(name);
   });
-
+  
   $('[name=type]').change((e) => {
     let radiobtn = $('input[name="type"]:checked').val();
     e.preventDefault();
@@ -48,7 +48,7 @@ $(() => {
       console.log("atsu", data);
       renderCategory(data)
       $.map(data,(value,index)=>{
-        console.log(value.name.name);
+        // console.log(value.name.name);
         categoryArr.push(value.name.name)
       })
       // console.log(categoryArr);
@@ -62,9 +62,9 @@ $(() => {
       $('#addvategorybtn').on('click', (e) => {
         e.preventDefault();
         let newcategory = $('#categoryinput').val();
-        console.log(newcategory);
+        // console.log(newcategory);
         const checkCategory = $.inArray(newcategory,categoryArr)
-        console.log(checkCategory);
+        // console.log(checkCategory);
         if(checkCategory < 0){
           categoryArr.push(newcategory)
           $.ajax({
@@ -168,10 +168,6 @@ $(() => {
 // const getCategory = ()=>{
 
 // }
-// Category//////
-const checkCategory = ()=>{
-
-}
 const renderCategory = (data) => {
   const list = $.map(data, (value, index) => {
     return ` <option value="${value.name.name}" key="">${value.name.name}</option>
