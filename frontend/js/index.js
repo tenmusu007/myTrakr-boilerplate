@@ -35,17 +35,23 @@ $(() => {
     e.preventDefault();
     $('#categorybox').hide();
   });
-
+  
   // categroy
-
+  
+  let categoryArr = []
   $.ajax({
     method: 'get',
     url: 'http://localhost:3000/categories',
     dataType: 'json',
   })
     .done((data) => {
-      // console.log("atsu", data);
+      console.log("atsu", data);
       renderCategory(data)
+      $.map(data,(value,index)=>{
+        console.log(value.name.name);
+        categoryArr.push(value.name.name)
+      })
+      // console.log(categoryArr);
     });
   $("#categorybox").hide()
   $('[name=category]').change(() => {
@@ -56,29 +62,36 @@ $(() => {
       $('#addvategorybtn').on('click', (e) => {
         e.preventDefault();
         let newcategory = $('#categoryinput').val();
-        $.ajax({
-          method: 'post',
-          data: JSON.stringify({
-            newCategory: {
-              name: newcategory,
-            },
-          }),
-          url: 'http://localhost:3000/categories',
-          dataType: 'json',
-          contentType: 'application/json',
-        })
+        console.log(newcategory);
+        const checkCategory = $.inArray(newcategory,categoryArr)
+        console.log(checkCategory);
+        if(checkCategory < 0){
+          categoryArr.push(newcategory)
+          $.ajax({
+            method: 'post',
+            data: JSON.stringify({
+              newCategory: {
+                name: newcategory,
+              },
+            }),
+            url: 'http://localhost:3000/categories',
+            dataType: 'json',
+            contentType: 'application/json',
+          })
           .done((data) => {
             $.ajax({
               method: 'get',
               url: 'http://localhost:3000/categories',
               dataType: 'json',
             })
-              .done((data) => {
-                console.log("atsu", data);
-                renderCategory(data)
-              });
+            .done((data) => {
+              console.log("atsu", data);
+              renderCategory(data)
+            });
           })
-
+        } else{
+          return alert("The category is aleady added")
+        }
       });
     }
   });
@@ -155,6 +168,10 @@ $(() => {
 // const getCategory = ()=>{
 
 // }
+// Category//////
+const checkCategory = ()=>{
+
+}
 const renderCategory = (data) => {
   const list = $.map(data, (value, index) => {
     return ` <option value="${value.name.name}" key="">${value.name.name}</option>
