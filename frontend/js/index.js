@@ -18,6 +18,10 @@ $(() => {
     } else if (radiovalue === 'transfer') {
       $('#account').hide();
       $('#transfer').show();
+      // $("#addtran").on("click",(e)=>{
+      //   Account.test()
+      //   e.preventDefault()
+      // })
     }
   });
 
@@ -103,17 +107,19 @@ $(() => {
         console.log(message);
       }
     });
+    renderTran(data)
 
     // filter/////
     $('[name=filter]').change(() => {
-      console.log('yse');
+      // console.log('yse');
       let filterName = $('[name=filter] option:selected').text();
-      // console.log("slected",filterName);
+      // console.log(filterName);
+      if (filterName === "Select user name") {
+        renderTran(data)
+      }
       let filterList = $.grep(data, (value, index) => {
-        // console.log(value.transactions);
+        console.log(value.transactions);
         if (filterName === value.username) {
-          // console.log(value.username);
-          // console.log("pass");
           return value.transactions;
         } else {
           $('#table').empty;
@@ -122,25 +128,7 @@ $(() => {
       // console.log("tran",filterList[0].transactions.length);
       console.log(filterList);
       if (filterList[0].transactions.length > 0) {
-        $('#table #transactionTable').remove();
-        $.each(filterList, (index, value) => {
-          for (const key in value.transactions) {
-            $('#table').append(
-              `
-              <tr class="table" id="transactionTable">
-              <td>${value.id}</td>
-              <td>${value.username}</td>
-                <td>${value.transactions[key].transactionType}</td>
-                <td>${value.transactions[key].category}</td>
-                <td>${value.transactions[key].description}</td>
-                <td>${value.transactions[key].amount}</td>
-                <td>${value.transactions[key].accountIdFrom}</td>
-                <td>${value.transactions[key].accountIdTo}</td>
-              </tr>
-              `
-            );
-          }
-        });
+        renderTran(filterList)
       } else {
         $('#table1').empty();
         console.log('transaction empty');
@@ -187,6 +175,28 @@ const renderCategory = (data) => {
         `;
     })
   );
+}
+const renderTran = (data) => {
+  $('#table #transactionTable').remove();
+  $.each(data, (index, value) => {
+    console.log(value.transactions);
+    for (const key in value.transactions) {
+      $('#table').append(
+        `
+        <tr class="table" id="transactionTable">
+        <td>${value.id}</td>
+        <td>${value.username}</td>
+          <td>${value.transactions[key].transactionType}</td>
+          <td>${value.transactions[key].category}</td>
+          <td>${value.transactions[key].description}</td>
+          <td>${value.transactions[key].amount}</td>
+          <td>${value.transactions[key].accountIdFrom}</td>
+          <td>${value.transactions[key].accountIdTo}</td>
+        </tr>
+        `
+      );
+    }
+  });
 }
 
 // Koki part /////////////////////////////////////
@@ -275,6 +285,12 @@ const addUserSelectBox = (data) => {
       $('<option>').html(data[index].username).val(data[index].username)
     );
     $('#filterselct').append(
+      $('<option>').html(data[index].username).val(data[index].username)
+    );
+    $('#from').append(
+      $('<option>').html(data[index].username).val(data[index].username)
+    );
+    $('#to').append(
       $('<option>').html(data[index].username).val(data[index].username)
     );
   }
