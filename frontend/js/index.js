@@ -45,7 +45,7 @@ $(() => {
     dataType: 'json',
   })
     .done((data) => {
-      console.log("atsu", data);
+      // console.log("atsu", data);
       renderCategory(data)
       $.map(data,(value,index)=>{
         // console.log(value.name.name);
@@ -192,7 +192,7 @@ const renderCategory = (data) => {
 const renderTran = (data) => {
   $('#table #transactionTable').remove();
   $.each(data, (index, value) => {
-    console.log(value.transactions);
+    // console.log(value.transactions);
     for (const key in value.transactions) {
       $('#table').append(
         `
