@@ -9,13 +9,11 @@ class Transaction {
     // this.account.balance += this.value;
   }
 }
-
 class Withdrawal extends Transaction {
   get value() {
     return -this.amount;
   }
 }
-
 class Deposit extends Transaction {
   get value() {
     return this.amount;
