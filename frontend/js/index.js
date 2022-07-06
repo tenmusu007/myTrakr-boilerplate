@@ -1,5 +1,5 @@
 $(() => {
-
+  let test;
   // Account to /////
   $('[name=to]').change(() => {
     let name = $('[name=to] option:selected').text();
@@ -21,11 +21,9 @@ $(() => {
     }
   });
 
-  $('[name=category]').change(() => {
-    let category = $('[name=category] option:selected').text();
-    Category = category;
-    // console.log(Category);
-  });
+  // $('[name=category]').change(() => {
+  //   let category = $('[name=category] option:selected').text();
+  // });
 
   $('#addcategroy').on('click', (e) => {
     e.preventDefault();
@@ -38,14 +36,14 @@ $(() => {
     method: 'get',
     url: 'http://localhost:3000/categories',
     dataType: 'json',
-  })
-    .done((data) => {
-      // console.log("atsu", data);
-      renderCategory(data)
-    });
-  $("#categorybox").hide()
+  }).done((data) => {
+    // console.log("atsu", data);
+    renderCategory(data);
+  });
+
+  $('#categorybox').hide();
   $('[name=category]').change(() => {
-    let test = $('[name=category] option:selected').text();
+    test = $('[name=category] option:selected').text();
     // console.log(test);
     if (test === 'add category') {
       $('#categorybox').show();
@@ -62,24 +60,22 @@ $(() => {
           url: 'http://localhost:3000/categories',
           dataType: 'json',
           contentType: 'application/json',
-        })
-          .done((data) => {
-            $.ajax({
-              method: 'get',
-              url: 'http://localhost:3000/categories',
-              dataType: 'json',
-            })
-              .done((data) => {
-                console.log("atsu", data);
-                renderCategory(data)
-              });
-          })
-
+        }).done((data) => {
+          $.ajax({
+            method: 'get',
+            url: 'http://localhost:3000/categories',
+            dataType: 'json',
+          }).done((data) => {
+            console.log('atsu', data);
+            renderCategory(data);
+          });
+        });
       });
     }
   });
 
   // accounts////////////
+  // newData = [];
   $.ajax({
     method: 'get',
     url: 'http://localhost:3000/accounts',
@@ -89,15 +85,17 @@ $(() => {
     $('#btnAddAccount').click(function (event) {
       let inputVal = $('#newUserName').val();
       if (inputVal !== '') {
-        user = new Account(inputVal, []);
+        user = new Account(inputVal);
         jsonData = JSON.stringify({
           newAccount: {
             username: user.username,
             transactions: user.transactions,
-            balance: user.balance,
+            balance: 0,
           },
         });
+
         addUserJson(jsonData, 'Success to add user');
+        // event.preventDefault();
       } else {
         message = 'Error username is invalid';
         console.log(message);
@@ -147,34 +145,47 @@ $(() => {
       }
     });
 
+    accountsData = data.map((account) => {
+      return new Account(account.username, account.transactions);
+    });
+    console.log(accountsData);
+
     $('[name=username]').change(() => {
       let selectedUser = $('[name=username]').val();
-      for (let index = 0; index < data.length; index++) {
-        if (data[index].username === selectedUser) {
-          $('#summary').html(`
-            <p>Username : ${data[index].username}</p>
-            <p class="balance">Balance : ${data[index].balance}</p>
-          `);
+      for (let index = 0; index < accountsData.length; index++) {
+        if (accountsData[index].username === selectedUser) {
+          // console.log('accountsData', accountsData[index]);
+          // console.log(data[index]);
+          // console.log('balance', accountsData[index].balance);
           setUser = data[index];
-          console.log(setUser);
+          return $('#summary').html(`
+              <p>Username : ${accountsData[index].username}</p>
+              <p class="balance">Balance : ${accountsData[index].balance}</p>
+            `);
         }
       }
     });
+
+    //get category value
+    $('[name=category]').change(() => {
+      getCategory = $('[name=category] option:selected').text();
+      console.log(getCategory);
+    });
+
     // setUser(data);
     addUserSelectBox(data);
   });
 });
-// const getCategory = ()=>{
 
 // }
 const renderCategory = (data) => {
   const list = $.map(data, (value, index) => {
     return ` <option value="${value.name.name}" key="">${value.name.name}</option>
-          
-        `
-  })
-  $("#categoryselect").empty()
-  $("#categoryselect").append(
+
+        `;
+  });
+  $('#categoryselect').empty();
+  $('#categoryselect').append(
     `
       <option id="none">none</option>
       <option id="addcategory" value="addcategory" >add category</option>
@@ -187,62 +198,38 @@ const renderCategory = (data) => {
         `;
     })
   );
-}
-
-// Koki part /////////////////////////////////////
-// const setUser = (data) => {
-//   // $('[name=username]').change(() => {
-//   //   let selectedUser = $('[name=username]').val();
-//   //   for (let index = 0; index < data.length; index++) {
-//   //     if (data[index].username === selectedUser) {
-//   //       $('#summary').html(`
-//   //             <p>Username : ${data[index].username}</p>
-//   //             <p>Balance : ${data[index].balance}</p>
-//   //           `);
-//   //     }
-//   //   }
-//     // let setUser;
-//     // $('[name=username]').change(() => {
-//     //   let selectedUser = $('[name=username]').val();
-//     //   for (let index = 0; index < data.length; index++) {
-//     //     if (data[index].username === selectedUser) {
-//     //       $('#summary').html(`
-//     //         <p>Username : ${data[index].username}</p>
-//     //         <p class="balance">Balance : ${data[index].balance}</p>
-//     //       `);
-//     //       setUser = data[index];
-//     //       console.log(setUser);
-//     //     }
-//     //   }
-//     // });
-//     // setUser(data);
-//     addUserSelectBox(data);
-//   }
-
-// Koki part /////////////////////////////////////
-// const setUser = (data) => {
-//   let setUser;
-//   $('[name=username]').change(() => {
-//     let selectedUser = $('[name=username]').val();
-//     for (let index = 0; index < data.length; index++) {
-//       if (data[index].username === selectedUser) {
-//         $('#summary').html(`
-//             <p>Username : ${data[index].username}</p>
-//             <p class="balance">Balance : ${data[index].balance}</p>
-//           `);
-//         setUser = data[index];
-//       }
-//     }
-//   });
-// };
+};
 
 // add transaction data to json
 $('#addtran').on('click', (e) => {
-  console.log("test");
+  e.preventDefault();
   let accountId = setUser.id;
   let transactionType = $('input[name="type"]:checked').val();
   let description = $('#transtxt').val();
-  let amount = Number($('#transamount').val());
+  let amount = 0;
+  if (transactionType === 'withdraw') {
+    withdrawal = new Withdrawal(
+      Number($('#transamount').val()),
+      accountsData[accountId - 1]
+    );
+    console.log(withdrawal);
+    console.log(withdrawal.value);
+    // withdrawal.commit();
+    amount = withdrawal.value;
+  } else if (transactionType === 'deposit') {
+    deposit = new Deposit(
+      Number($('#transamount').val()),
+      accountsData[accountId - 1]
+    );
+    console.log(deposit);
+    console.log(deposit.value);
+    // deposit.commit();
+    amount = deposit.value;
+  } else {
+    console.log('Worng');
+  }
+  let category = getCategory;
+
   // let accountIdTo = 0;
   // let accountIdFrom = 0;
   jsonTransactionData = JSON.stringify({
@@ -251,7 +238,7 @@ $('#addtran').on('click', (e) => {
       accountIdFrom: '',
       accountIdTo: '',
       transactionType: transactionType,
-      category: '',
+      category: category,
       description: description,
       amount: amount,
     },
@@ -280,6 +267,7 @@ const addUserSelectBox = (data) => {
   }
 };
 
+// accountsData = [];
 const addUserJson = (jsonData, message) => {
   $.ajax({
     method: 'post',
