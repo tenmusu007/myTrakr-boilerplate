@@ -16,12 +16,12 @@
   <link rel="stylesheet" href="./css/index.css" />
 </head>
 
-<body class="Font">
-  <main>
-    <h1 class="container text-center FontColor mb-4"> My Trakr </h1>
-    <div class="container mt-4">
+<body>
+  <main class="bgMain">
+    <h1 class="text-center Font pt-4 pb-4 bg-white"> My Trakr </h1>
+    <div class="container pt-4">
       <form action="" class="margin" id="newUser">
-        <label class="col-sm-3 control-label">
+        <label class="col-sm-3 control-label label">
           New Account:
         </label>
         <input type="text" id="newUserName" />
@@ -29,8 +29,8 @@
           account</button>
       </form>
       <form action="" class="margin">
-        <div class="newTranBox mt-1 mb-1" >
-          <label class="col-sm-3 control-label">
+        <div class="newTranBox mt-2 mb-2" >
+          <label class="col-sm-3 control-label label">
             New Transaction:
           </label>
           <!-- <div class="radioBtn"> -->
@@ -43,39 +43,39 @@
           <!-- </div> -->
         </div>
         <div class="accountBox">
-          <div id="account" class="account mt-1 mb-1">
-            <label class="col-sm-3 control-label">
+          <div id="account" class="account mt-2 mb-2">
+            <label class="col-sm-3 control-label label">
               Account:
             </label>
-            <select id="selectUser" name="username" class="pt-1 pb-1">
+            <select id="selectUser" name="username" class="pt-2 pb-2 select">
               <option value="username">Select user name</option>
             </select>
           </div>
           <div id="transfer" class="fromtoBox">
-            <div class="fromBox mt-1 mb-1">
-              <label class="col-sm-3 control-label">
+            <div class="fromBox mt-2 mb-2">
+              <label class="col-sm-3 control-label label">
                 From:
               </label>
-              <select name="from" id="from" class="pt-1 pb-1">
+              <select name="from" id="from" class="pt-2 pb-2 select">
                 <option value="none">From</option>
-                <option value="koki">koki</option>
+                <!-- <option value="koki">koki</option> -->
               </select>
             </div>
-            <div class="toBox mt-1 mb-1">
-              <label class="col-sm-3 control-label">
+            <div class="toBox mt-2 mb-2">
+              <label class="col-sm-3 control-label label">
                 To:
               </label>
-              <select name="to" id="to" class="pt-1 pb-1">
+              <select name="to" id="to" class="pt-2 pb-2 select">
                 <option value="none">To</option>
-                <option value="atsu">atsu</option>
+                <!-- <option value="atsu">atsu</option> -->
               </select>
             </div>
           </div>
-          <div class="category-box align-items-center mt-1 mb-1">
-            <label class="col-sm-3 control-label">
+          <div class="category-box align-items-center mt-2 mb-2">
+            <label class="col-sm-3 control-label label">
               Category:
             </label>
-            <select id="categoryselect" name="category" class="pt-1 pb-1">
+            <select id="categoryselect" name="category" class="pt-2 pb-2 select">
               <option id="none">none</option>
               <option id="addcategory" value="addcategory">add category</option>
             </select>
@@ -87,21 +87,21 @@
           </div>
         </div>
         <div class="AmountDes">
-          <div class="mt-1 mb-1">
-            <label class="col-sm-3 control-label">
+          <div class="mt-2 mb-2">
+            <label class="col-sm-3 control-label label">
               Amount:
             </label>
             <input type="number" id="transamount" />
           </div>
-          <div class="mt-1 mb-1">
-            <label class="col-sm-3 control-label">
+          <div class="mt-2 mb-2">
+            <label class="col-sm-3 control-label label">
               Description
             </label>
             <input type="text" id="transtxt" />
           </div>
         </div>
         <div class="d-flex justify-content-center mt-3">
-          <button id="addtran" class="BtnTran p-2 Font BtnBorderColor BtnHover">Add transaction</button>
+          <button id="addtran" class="BtnTran p-2 Font BtnBorderColor rounded BtnHover">Add transaction</button>
         </div>
       </form>
       <div class="margin">
@@ -110,12 +110,14 @@
           <label class="col-sm-3 control-label">
             Filter by account:
           </label>
-          <select id="filterselct" name="filter" class="pt-1 pb-1">
+          <select id="filterselct" name="filter" class="pt-2 pb-2 select">
             <option value="username">Select user name</option>
           </select>
         </div>
       </div>
-      <table id="table" class="container m-3 d-grid">
+    </div>
+    <div class="container mt-4">
+      <table id="table" class="container m-3 d-grid text-dark">
         <!-- <tbody class="d-inline-flex"> -->
         <tr class="table" id="tableTitle">
           <th scope="row" id="tbId">Id</th>
