@@ -179,8 +179,7 @@ $(() => {
 
     //get category value
     $('[name=category]').change(() => {
-      getCategory = $('[name=category] option:selected').text();
-      // console.log(getCategory);
+        getCategory = $('[name=category] option:selected').text();
     });
 
     // setUser(data);
@@ -198,7 +197,7 @@ const renderCategory = (data) => {
   $('#categoryselect').empty();
   $('#categoryselect').append(
     `
-      <option id="none">none</option>
+      <option id="">Select category</option>
       <option id="addcategory" value="addcategory" >add category</option>
       `
   );
@@ -309,7 +308,13 @@ $('#addtran').on('click', (e) => {
   } else {
     console.log('Worng');
   }
+  let getCategory = $('[name=category] option:selected').val();
+  console.log(getCategory);
+  if(getCategory === "Select category"){
+    return alert("chose category")
+  }
   let category = getCategory;
+  
 
   // let accountIdTo = 0;
   // let accountIdFrom = 0;
