@@ -92,7 +92,7 @@ $('#addtran').on('click', (e) => {
       contentType: "application/json",
     })
       .done((data) => {
-      console.log('Transaction 1:', test);
+      // console.log('Transaction 1:', test);
         // console.log('data post ajax', data)
         const dataInfo = data
         // console.log("data", dataInfo);
