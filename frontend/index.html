@@ -17,9 +17,9 @@
 </head>
 
 <body>
-  <main class="bgMain">
+  <main class="">
     <h1 class="text-center Font pt-4 pb-4 bg-white"> My Trakr </h1>
-    <div class="container pt-4">
+    <div class="container pt-4 pb-4 bgMain">
       <form action="" class="margin" id="newUser">
         <label class="col-sm-3 control-label label">
           New Account:
@@ -76,7 +76,7 @@
               Category:
             </label>
             <select id="categoryselect" name="category" class="pt-2 pb-2 select">
-              <option id="none">none</option>
+              <option id="none" value="none">none</option>
               <option id="addcategory" value="addcategory">add category</option>
             </select>
             <div id="categorybox" class="ml-5 mt-3 mb-3">
@@ -117,7 +117,7 @@
       </div>
     </div>
     <div class="container mt-4">
-      <table id="table" class="container m-3 d-grid text-dark">
+      <table id="table" class="container d-grid text-dark">
         <!-- <tbody class="d-inline-flex"> -->
         <tr class="table" id="tableTitle">
           <th scope="row" id="tbId">Id</th>

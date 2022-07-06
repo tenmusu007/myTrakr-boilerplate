@@ -12,7 +12,7 @@ $(() => {
     let radiobtn = $('input[name="type"]:checked').val();
     e.preventDefault();
     radiovalue = radiobtn;
-    console.log(radiovalue);
+    // console.log(radiovalue);
     if (radiovalue === 'withdraw' || radiovalue === 'deposit') {
       $('#transfer').hide();
       $('#account').show();
@@ -126,34 +126,40 @@ $(() => {
 
     // filter/////
     $('[name=filter]').change(() => {
-      // console.log('yse');
-      let filterName = $('[name=filter] option:selected').text();
-      // console.log(filterName);
-      if (filterName === "Select user name") {
-        renderTran(data)
-      }
-      let filterList = $.grep(data, (value, index) => {
-        console.log(value.transactions);
-        if (filterName === value.username) {
-          return value.transactions;
-        } else {
-          $('#table').empty;
+      $.ajax({
+        method: 'get',
+        url: 'http://localhost:3000/accounts',
+        dataType: 'json',
+      }).done((data) => {
+        // console.log('yse');
+        let filterName = $('[name=filter] option:selected').text();
+        // console.log(filterName);
+        if (filterName === "Select user name") {
+          return renderTran(data)
         }
-      });
-      // console.log("tran",filterList[0].transactions.length);
-      console.log(filterList);
-      if (filterList[0].transactions.length > 0) {
-        renderTran(filterList)
-      } else {
-        $('#table1').empty();
-        console.log('transaction empty');
-      }
+        let filterList = $.grep(data, (value, index) => {
+          // console.log(value.transactions);
+          if (filterName === value.username) {
+            return value.transactions;
+          } else {
+            $('#table').empty;
+          }
+        });
+        // console.log("tran",filterList[0].transactions.length);
+        // console.log(filterList);
+        if (filterList[0].transactions.length > 0) {
+          renderTran(filterList)
+        } else {
+          $('#table1').empty();
+          console.log('transaction empty');
+        }
+      })
     });
 
     accountsData = data.map((account) => {
       return new Account(account.username, account.transactions);
     });
-    console.log(accountsData);
+    // console.log(accountsData);
 
     $('[name=username]').change(() => {
       let selectedUser = $('[name=username]').val();
@@ -174,7 +180,7 @@ $(() => {
     //get category value
     $('[name=category]').change(() => {
       getCategory = $('[name=category] option:selected').text();
-      console.log(getCategory);
+      // console.log(getCategory);
     });
 
     // setUser(data);
