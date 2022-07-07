@@ -176,6 +176,24 @@ $(() => {
         }
       }
     });
+    $('[name=from]').change(() => {
+      let selectedUserFrom = $('[name=from]').val();
+      for (let index = 0; index < accountsData.length; index++) {
+        if (accountsData[index].username === selectedUserFrom) {
+          setUserFrom = data[index];
+          // console.log(setUserFrom);
+        }
+      }
+    });
+    $('[name=to]').change(() => {
+      let selectedUserTo = $('[name=to]').val();
+      for (let index = 0; index < accountsData.length; index++) {
+        if (accountsData[index].username === selectedUserTo) {
+          setUserTo = data[index];
+          // console.log(setUserTo);
+        }
+      }
+    });
 
     //get category value
     $('[name=category]').change(() => {
@@ -231,58 +249,16 @@ const renderTran = (data) => {
     }
   });
 }
-
-// Koki part /////////////////////////////////////
-// const setUser = (data) => {
-//   // $('[name=username]').change(() => {
-//   //   let selectedUser = $('[name=username]').val();
-//   //   for (let index = 0; index < data.length; index++) {
-//   //     if (data[index].username === selectedUser) {
-//   //       $('#summary').html(`
-//   //             <p>Username : ${data[index].username}</p>
-//   //             <p>Balance : ${data[index].balance}</p>
-//   //           `);
-//   //     }
-//   //   }
-//     // let setUser;
-//     // $('[name=username]').change(() => {
-//     //   let selectedUser = $('[name=username]').val();
-//     //   for (let index = 0; index < data.length; index++) {
-//     //     if (data[index].username === selectedUser) {
-//     //       $('#summary').html(`
-//     //         <p>Username : ${data[index].username}</p>
-//     //         <p class="balance">Balance : ${data[index].balance}</p>
-//     //       `);
-//     //       setUser = data[index];
-//     //       console.log(setUser);
-//     //     }
-//     //   }
-//     // });
-//     // setUser(data);
-//     addUserSelectBox(data);
-//   }
-
-// Koki part /////////////////////////////////////
-// const setUser = (data) => {
-//   let setUser;
-//   $('[name=username]').change(() => {
-//     let selectedUser = $('[name=username]').val();
-//     for (let index = 0; index < data.length; index++) {
-//       if (data[index].username === selectedUser) {
-//         $('#summary').html(`
-//             <p>Username : ${data[index].username}</p>
-//             <p class="balance">Balance : ${data[index].balance}</p>
-//           `);
-//         setUser = data[index];
-//       }
-//     }
-//   });
-// };
-
-
+let setUser = 0
+let setUserFrom = 0
+let setUserTo = 0
+let accountIdFrom = 0
+let accountIdTo = 0
 // add transaction data to json
 $('#addtran').on('click', (e) => {
   e.preventDefault();
+  accountIdFrom = setUserFrom.id
+  accountIdTo = setUserTo.id
   let accountId = setUser.id;
   let transactionType = $('input[name="type"]:checked').val();
   let description = $('#transtxt').val();
@@ -305,7 +281,14 @@ $('#addtran').on('click', (e) => {
     console.log(deposit.value);
     // deposit.commit();
     amount = deposit.value;
-  } else {
+  }else if(transactionType === 'transfer'){
+    // console.log(accountIdFrom, accountIdTo);
+    transfer = new Transfer(
+      accountIdFrom, accountIdTo);
+      console.log(transfer);
+      console.log(transfer.value);
+    amount = transfer.vaue
+  }else {
     console.log('Worng');
   }
   let getCategory = $('[name=category] option:selected').val();
@@ -321,8 +304,8 @@ $('#addtran').on('click', (e) => {
   jsonTransactionData = JSON.stringify({
     newTransaction: {
       accountId: accountId,
-      accountIdFrom: '',
-      accountIdTo: '',
+      accountIdFrom: accountIdFrom,
+      accountIdTo: accountIdTo,
       transactionType: transactionType,
       category: category,
       description: description,
