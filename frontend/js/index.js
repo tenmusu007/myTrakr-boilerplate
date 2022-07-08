@@ -1,4 +1,6 @@
-import { renderTran, convertTransaction } from './helpers/Transaction.js';
+import { 
+  renderTran,
+  convertTransaction } from './helpers/Transaction.js';
 import {
   getaccountData,
   addAccountData,
@@ -108,45 +110,55 @@ $(() => {
   }).done((data) => {
     //add new users
     // addAccountData();
-    renderTran(data);
+    // renderTran(data);
 
     // filter/////
-    $('[name=filter]').change(() => {
-      $.ajax({
-        method: 'get',
-        url: 'http://localhost:3000/accounts',
-        dataType: 'json',
-      }).done((data) => {
-        // console.log('yse');
-        let filterName = $('[name=filter] option:selected').text();
-        // console.log(filterName);
-        if (filterName === 'Select user name') {
-          return renderTran(data);
-        }
-        let filterList = $.grep(data, (value, index) => {
-          // console.log(value.transactions);
-          if (filterName === value.username) {
-            return value.transactions;
-          } else {
-            $('#table').empty;
-          }
-        });
-        // console.log("tran",filterList[0].transactions.length);
-        // console.log(filterList);
-        if (filterList[0].transactions.length > 0) {
-          renderTran(filterList);
-        } else {
-          $('#table1').empty();
-          console.log('transaction empty');
-        }
-      });
-    });
+    // $('[name=filter]').change(() => {
+    //   $.ajax({
+    //     method: 'get',
+    //     url: 'http://localhost:3000/accounts',
+    //     dataType: 'json',
+    //   }).done((data) => {
+    //     // console.log('yse');
+    //     let filterName = $('[name=filter] option:selected').text();
+    //     // console.log(filterName);
+    //     if (filterName === 'Select user name') {
+    //       return renderTran(data);
+    //     }
+    //     let filterList = $.grep(data, (value, index) => {
+    //       // console.log(value.transactions);
+    //       if (filterName === value.username) {
+    //         return value.transactions;
+    //       } else {
+    //         $('#table').empty;
+    //       }
+    //     });
+    //     // console.log("tran",filterList[0].transactions.length);
+    //     // console.log(filterList);
+    //     if (filterList[0].transactions.length > 0) {
+    //       renderTran(filterList);
+    //     } else {
+    //       $('#table1').empty();
+    //       console.log('transaction empty');
+    //     }
+    //   });
+    // });
 
     const accountsData = [...getaccountData(data)];
     console.log(accountsData);
-
+    
+    // const GetUserName = (accountsData)=>{
+    //   let UserName = []
+    //   for(const i in accountsData){
+    //     console.log(accountsData[i]);
+    //     UserName.push(accountsData[i].username)
+    //   }
+      // return UserName
+    // }
+    // const acccountUserName = GetUserName(accountsData)
+    // console.log(acccountUserName);
     // renderBalance();
-
+    
     $('[name=username]').change(() => {
       let selectedUser = $('[name=username]').val();
       for (let index = 0; index < accountsData.length; index++) {
@@ -324,9 +336,38 @@ const addTransactionData = () => {
         console.log(data);
         data.forEach((element) => {
           let newTransaction = element;
-
           const convertedTransaction = convertTransaction(newTransaction);
+          console.log(convertedTransaction);
           console.log(convertedTransaction.value);
+          // renderTran(...convertedTransaction)
+            renderTran(convertedTransaction)
+          // $('[name=filter]').change(() => {
+          //     // console.log('yse');
+          //     let filterName = $('[name=filter]').val();
+          //     console.log(filterName);
+          //     if (filterName === 'username') {
+          //       return renderTran(convertedTransaction);
+          //     }
+          //     let filterList = $.grep(convertedTransaction, (value, index) => {
+          //       console.log(value);
+          //       if (filterName === value.account) {
+          //         return value;
+          //       } else {
+          //         $('#table').empty;
+          //       }
+          //     });
+          //     // console.log("tran",filterList[0].transactions.length);
+          //     console.log(filterList);
+          //     // if (filterList[0].transactions.length > 0) {
+          //     //   renderTran(filterList);
+          //     // } else {
+          //     //   $('#table1').empty();
+          //     //   console.log('transaction empty');
+          //     // }
+            
+          // });
+      
+          // convertedTransaction.amount = convertedTransaction.value
         });
       })
       .fail((data) => {
@@ -442,7 +483,7 @@ const addUserSelectBox = (data) => {
       $('<option>').html(data[index].username).val(data[index].id)
     );
     $('#filterselct').append(
-      $('<option>').html(data[index].username).val(data[index].username)
+      $('<option>').html(data[index].username).val(data[index].id)
     );
     $('#from').append(
       $('<option>').html(data[index].username).val(data[index].id)

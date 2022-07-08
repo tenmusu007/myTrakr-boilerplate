@@ -56,27 +56,70 @@ class Transfer extends Transaction {
 }
 
 export const renderTran = (data) => {
-  $('#table #transactionTable').remove();
-  $.each(data, (index, value) => {
-    // console.log(value.transactions);
-    for (const key in value.transactions) {
+  console.log(data);
+  let username = $('[name=filter]').val()
+  console.log(username);
+    if (data.transactionType === "transfer") {
       $('#table').append(
         `
         <tr class="table" id="transactionTable">
-        <td>${value.id}</td>
-        <td>${value.username}</td>
-          <td>${value.transactions[key].transactionType}</td>
-          <td>${value.transactions[key].category}</td>
-          <td>${value.transactions[key].description}</td>
-          <td>${value.transactions[key].amount}</td>
-          <td>${value.transactions[key].accountIdFrom}</td>
-          <td>${value.transactions[key].accountIdTo}</td>
+        <td>${data.accountId}</td>
+        <td>${username}</td>
+        <td>${data.transactionType}</td>
+        <td>${data.category}</td>
+        <td>${data.description}</td>
+        <td>${data.value}</td>
+        <td>${data.accountIdFrom}</td>
+        <td>${data.accountIdTo}</td>
         </tr>
         `
       );
     }
-  });
 };
+// export const renderTran = (data) => {
+//   $('#table #transactionTable').remove();
+//   console.log(data);
+//   $.each(data, (index, value) => {
+//     console.log(value.transactions);
+//     // console.log(value.value);
+//     console.log(data);
+//     if(data.transactionType === "transfer"){
+//       for (const key in value.transactions) {
+//         $('#table').append(
+//           `
+//           <tr class="table" id="transactionTable">
+//           <td>${value.id}</td>
+//           <td>${value.username}</td>
+//           <td>${value.transactions[key].transactionType}</td>
+//           <td>${value.transactions[key].category}</td>
+//           <td>${value.transactions[key].description}</td>
+//           <td>${value.transactions[key].amount}</td>
+//           <td>${value.transactions[key].accountIdFrom}</td>
+//           <td>${value.transactions[key].accountIdTo}</td>
+//           </tr>
+//           `
+//           );
+//       }
+//     }else{
+//       for (const key in value.transactions) {
+//         $('#table').append(
+//           `
+//           <tr class="table" id="transactionTable">
+//           <td>${value.id}</td>
+//           <td>${value.username}</td>
+//           <td>${value.transactions[key].transactionType}</td>
+//           <td>${value.transactions[key].category}</td>
+//           <td>${value.transactions[key].description}</td>
+//           <td>${value.transactions[key].amount}</td>
+//           <td>${value.transactions[key].accountIdFrom}</td>
+//           <td>${value.transactions[key].accountIdTo}</td>
+//           </tr>
+//           `
+//           );
+//       }
+//     }
+//   });
+// };
 
 export const convertTransaction = (transaction) => {
   if (transaction.transactionType == 'transfer') {
@@ -93,4 +136,7 @@ export const convertTransaction = (transaction) => {
   }
 };
 
-export default { renderTran, convertTransaction };
+export default {
+  renderTran,
+  convertTransaction
+};
