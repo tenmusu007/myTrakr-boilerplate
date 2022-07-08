@@ -7,7 +7,7 @@ $(() => {
     toname = name;
     // console.log(name);
   });
-  
+
   $('[name=type]').change((e) => {
     let radiobtn = $('input[name="type"]:checked').val();
     e.preventDefault();
@@ -34,9 +34,9 @@ $(() => {
     e.preventDefault();
     $('#categorybox').hide();
   });
-  
+
   // categroy
-  
+
   let categoryArr = []
   $.ajax({
     method: 'get',
@@ -46,7 +46,7 @@ $(() => {
     .done((data) => {
       // console.log("atsu", data);
       renderCategory(data)
-      $.map(data,(value,index)=>{
+      $.map(data, (value, index) => {
         // console.log(value.name.name);
         categoryArr.push(value.name.name)
       })
@@ -62,9 +62,9 @@ $(() => {
         e.preventDefault();
         let newcategory = $('#categoryinput').val();
         // console.log(newcategory);
-        const checkCategory = $.inArray(newcategory,categoryArr)
+        const checkCategory = $.inArray(newcategory, categoryArr)
         // console.log(checkCategory);
-        if(checkCategory < 0){
+        if (checkCategory < 0) {
           categoryArr.push(newcategory)
           $.ajax({
             method: 'post',
@@ -77,18 +77,18 @@ $(() => {
             dataType: 'json',
             contentType: 'application/json',
           })
-          .done((data) => {
-            $.ajax({
-              method: 'get',
-              url: 'http://localhost:3000/categories',
-              dataType: 'json',
-            })
             .done((data) => {
-              console.log("atsu", data);
-              renderCategory(data)
-            });
-          })
-        } else{
+              $.ajax({
+                method: 'get',
+                url: 'http://localhost:3000/categories',
+                dataType: 'json',
+              })
+                .done((data) => {
+                  console.log("atsu", data);
+                  renderCategory(data)
+                });
+            })
+        } else {
           return alert("The category is aleady added")
         }
       });
@@ -176,10 +176,28 @@ $(() => {
         }
       }
     });
+    $('[name=from]').change(() => {
+      let selectedUserFrom = $('[name=from]').val();
+      for (let index = 0; index < accountsData.length; index++) {
+        if (accountsData[index].username === selectedUserFrom) {
+          setUserFrom = data[index];
+          // console.log(setUserFrom);
+        }
+      }
+    });
+    $('[name=to]').change(() => {
+      let selectedUserTo = $('[name=to]').val();
+      for (let index = 0; index < accountsData.length; index++) {
+        if (accountsData[index].username === selectedUserTo) {
+          setUserTo = data[index];
+          // console.log(setUserTo);
+        }
+      }
+    });
 
     //get category value
     $('[name=category]').change(() => {
-        getCategory = $('[name=category] option:selected').text();
+      getCategory = $('[name=category] option:selected').text();
     });
 
     // setUser(data);
@@ -231,58 +249,16 @@ const renderTran = (data) => {
     }
   });
 }
-
-// Koki part /////////////////////////////////////
-// const setUser = (data) => {
-//   // $('[name=username]').change(() => {
-//   //   let selectedUser = $('[name=username]').val();
-//   //   for (let index = 0; index < data.length; index++) {
-//   //     if (data[index].username === selectedUser) {
-//   //       $('#summary').html(`
-//   //             <p>Username : ${data[index].username}</p>
-//   //             <p>Balance : ${data[index].balance}</p>
-//   //           `);
-//   //     }
-//   //   }
-//     // let setUser;
-//     // $('[name=username]').change(() => {
-//     //   let selectedUser = $('[name=username]').val();
-//     //   for (let index = 0; index < data.length; index++) {
-//     //     if (data[index].username === selectedUser) {
-//     //       $('#summary').html(`
-//     //         <p>Username : ${data[index].username}</p>
-//     //         <p class="balance">Balance : ${data[index].balance}</p>
-//     //       `);
-//     //       setUser = data[index];
-//     //       console.log(setUser);
-//     //     }
-//     //   }
-//     // });
-//     // setUser(data);
-//     addUserSelectBox(data);
-//   }
-
-// Koki part /////////////////////////////////////
-// const setUser = (data) => {
-//   let setUser;
-//   $('[name=username]').change(() => {
-//     let selectedUser = $('[name=username]').val();
-//     for (let index = 0; index < data.length; index++) {
-//       if (data[index].username === selectedUser) {
-//         $('#summary').html(`
-//             <p>Username : ${data[index].username}</p>
-//             <p class="balance">Balance : ${data[index].balance}</p>
-//           `);
-//         setUser = data[index];
-//       }
-//     }
-//   });
-// };
-
-
+let setUser = 0
+let setUserFrom = 0
+let setUserTo = 0
+let accountIdFrom = 0
+let accountIdTo = 0
 // add transaction data to json
 $('#addtran').on('click', (e) => {
   e.preventDefault();
+  accountIdFrom = setUserFrom.id
+  accountIdTo = setUserTo.id
   let accountId = setUser.id;
   let transactionType = $('input[name="type"]:checked').val();
   let description = $('#transtxt').val();
@@ -305,24 +281,39 @@ $('#addtran').on('click', (e) => {
     console.log(deposit.value);
     // deposit.commit();
     amount = deposit.value;
+  } else if (transactionType === 'transfer') {
+    console.log(accountsData);
+    // console.log(accountIdFrom, accountIdTo);
+    // accountId = [setUserFrom.id, setUserTo.id]
+    accountId = setUserFrom.id;
+    transfer = new Transfer(
+      Number($('#transamount').val()),
+      accountId,
+      accountIdFrom,
+      accountIdTo,
+    );
+    console.log(transfer);
+    console.log(transfer.value);
+    amount = transfer.value
   } else {
     console.log('Worng');
   }
   let getCategory = $('[name=category] option:selected').val();
-  console.log(getCategory);
-  if(getCategory === "Select category"){
+  // console.log(getCategory);
+  if (getCategory === "Select category") {
     return alert("chose category")
   }
   let category = getCategory;
-  
+
 
   // let accountIdTo = 0;
   // let accountIdFrom = 0;
+  // if()
   jsonTransactionData = JSON.stringify({
     newTransaction: {
       accountId: accountId,
-      accountIdFrom: '',
-      accountIdTo: '',
+      accountIdFrom: accountIdFrom,
+      accountIdTo: accountIdTo,
       transactionType: transactionType,
       category: category,
       description: description,
