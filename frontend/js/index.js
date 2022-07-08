@@ -93,32 +93,13 @@ $(() => {
   });
 
   // accounts////////////
-  // newData = [];
   $.ajax({
     method: 'get',
     url: 'http://localhost:3000/accounts',
     dataType: 'json',
   }).done((data) => {
     //add new users
-    $('#btnAddAccount').click(function (event) {
-      let inputVal = $('#newUserName').val();
-      if (inputVal !== '') {
-        user = new Account(inputVal);
-        jsonData = JSON.stringify({
-          newAccount: {
-            username: user.username,
-            transactions: user.transactions,
-            balance: 0,
-          },
-        });
-
-        addUserJson(jsonData, 'Success to add user');
-        // event.preventDefault();
-      } else {
-        message = 'Error username is invalid';
-        console.log(message);
-      }
-    });
+    addAccountData();
     renderTran(data);
 
     // filter/////
@@ -157,25 +138,9 @@ $(() => {
       return new Account(account.username, account.transactions);
     });
 
-    $('[name=username]').change(() => {
-      let selectedUserId = $('[name=username]').val();
-      for (let index = 0; index < accountsData.length; index++) {
-        if (index === selectedUserId - 1) {
-          console.log(accountsData[index]);
-          return $('#summary').html(`
-              <p>Username : ${accountsData[index].username}</p>
-              <p class="balance">Balance : ${accountsData[index].balance}</p>
-            `);
-        }
-      }
-    });
-
-    //get category value
-    $('[name=category]').change(() => {
-      getCategory = $('[name=category] option:selected').text();
-    });
-
+    renderBalance();
     addUserSelectBox(data);
+    addTransactionData();
   });
 });
 
@@ -201,6 +166,7 @@ const renderCategory = (data) => {
     })
   );
 };
+
 const renderTran = (data) => {
   $('#table #transactionTable').remove();
   $.each(data, (index, value) => {
@@ -225,80 +191,76 @@ const renderTran = (data) => {
 };
 
 // add transaction data to json
-$('#addtran').on('click', (e) => {
-  e.preventDefault();
-  let accountId = $('[name=username]').val();
-  if (accountId == 'username') {
-    return alert('choose account');
-  }
-  let transactionType = $('input[name="type"]:checked').val();
-  let description = $('#transtxt').val();
-  let amount = Number($('#transamount').val());
-  console.log(amount);
-  console.log(accountsData[accountId - 1].balance);
-  if (amount <= 0) {
-    return alert('type greater than 0 amount');
-  }
+const addTransactionData = () => {
+  $('#addtran').on('click', (e) => {
+    e.preventDefault();
+    let accountId = $('[name=username]').val();
+    let transactionType = $('input[name="type"]:checked').val();
+    let description = $('#transtxt').val();
+    let amount = Number($('#transamount').val());
+    let category = $('[name=category] option:selected').val();
+    // console.log(amount);
+    // console.log(accountsData[accountId - 1].balance);
 
-  // console.log($('#transamount').val());
-  if (transactionType === 'withdraw') {
-    withdrawal = new Withdrawal(
-      Number($('#transamount').val()),
-      accountsData[accountId - 1]
-    );
-    // console.log(withdrawal);
-    // console.log(withdrawal.value);
-    // withdrawal.commit();
-    amount = withdrawal.value;
-    if (accountsData[accountId - 1].balance + amount < 0) {
-      return alert('You are not rich enough');
+    //required account
+    if (accountId == 'username') {
+      return alert('choose account');
     }
-  } else if (transactionType === 'deposit' && accountId == isNaN(accountId)) {
-    deposit = new Deposit(
-      Number($('#transamount').val()),
-      accountsData[accountId - 1]
-    );
-    // console.log(deposit);
-    // console.log(deposit.value);
-    // deposit.commit();
-    amount = deposit.value;
-  } else {
-    console.log('Something Wrong');
-  }
-  let getCategory = $('[name=category] option:selected').val();
-  // console.log(getCategory);
-  if (getCategory === 'Select category') {
-    return alert('chose category');
-  }
-  let category = getCategory;
 
-  // let accountIdTo = 0;
-  // let accountIdFrom = 0;
-  jsonTransactionData = JSON.stringify({
-    newTransaction: {
-      accountId: accountId,
-      accountIdFrom: '',
-      accountIdTo: '',
-      transactionType: transactionType,
-      category: category,
-      description: description,
-      amount: amount,
-    },
-  });
+    //required typing amount
+    if (amount <= 0) {
+      return alert('type greater than 0 amount');
+    }
 
-  $.ajax({
-    method: 'post',
-    data: jsonTransactionData,
-    url: 'http://localhost:3000/transaction',
-    dataType: 'json',
-    contentType: 'application/json',
-  }).done((data) => {
-    console.log('Post transaction', data);
+    if (transactionType === 'withdraw') {
+      withdrawal = new Withdrawal(
+        Number($('#transamount').val()),
+        accountsData[accountId - 1]
+      );
+      // console.log(withdrawal);
+      // console.log(withdrawal.value);
+      // withdrawal.commit();
+      amount = withdrawal.value;
+      if (accountsData[accountId - 1].balance + amount < 0) {
+        return alert('You are not rich enough');
+      }
+    } else if (transactionType === 'deposit') {
+      deposit = new Deposit(
+        Number($('#transamount').val()),
+        accountsData[accountId - 1]
+      );
+      // console.log(deposit);
+      // console.log(deposit.value);
+      // deposit.commit();
+      amount = deposit.value;
+    } else {
+      console.log('Something Wrong in Transfer');
+    }
+
+    //require category
+    if (category === 'Select category' || category === 'addcategory') {
+      return alert('choose category');
+    }
+
+    // let accountIdTo = 0;
+    // let accountIdFrom = 0;
+    const jsonTransactionData = JSON.stringify({
+      newTransaction: {
+        accountId: accountId,
+        accountIdFrom: '',
+        accountIdTo: '',
+        transactionType: transactionType,
+        category: category,
+        description: description,
+        amount: amount,
+      },
+    });
+
+    connectAjax('post', 'transaction', jsonTransactionData);
   });
-});
+};
 
 const addUserSelectBox = (data) => {
-  // console.log(data);
   for (let index = 0; index < data.length; index++) {
     $('#selectUser').append(
       $('<option>').html(data[index].username).val(data[index].id)
@@ -313,22 +275,4 @@ const addUserSelectBox = (data) => {
       $('<option>').html(data[index].username).val(data[index].username)
     );
   }
-};
-
-// accountsData = [];
-const addUserJson = (jsonData, message) => {
-  $.ajax({
-    method: 'post',
-    url: 'http://localhost:3000/accounts',
-    dataType: 'json',
-    data: jsonData,
-    contentType: 'application/json',
-  })
-    .done((data) => {
-      console.log(message, data);
-      console.log(user);
-    })
-    .fail((error) => {
-      console.log('error', error);
-    });
 };
