@@ -34,24 +34,6 @@ export const getaccountData = (data) => {
   });
 };
 
-export const addAccountData = () => {
-  $('#btnAddAccount').click(function () {
-    const inputVal = $('#newUserName').val();
-    if (inputVal !== '') {
-      const user = new Account(inputVal);
-      const jsonData = JSON.stringify({
-        newAccount: {
-          username: user.username,
-          transactions: user.transactions,
-        },
-      });
-      connectAjax('post', 'accounts', jsonData);
-    } else {
-      return alert('Username is empty');
-    }
-  });
-};
-
 export const renderBalance = (accountsData) => {
   $('[name=username]').change(() => {
     let selectedUserId = $('[name=username]').val();
@@ -68,4 +50,4 @@ export const renderBalance = (accountsData) => {
   });
 };
 
-export default { getaccountData, addAccountData, renderBalance };
+export default { getaccountData, renderBalance };

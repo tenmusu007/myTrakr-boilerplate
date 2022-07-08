@@ -1,9 +1,6 @@
 import { renderTran, convertTransaction } from './helpers/Transaction.js';
-import {
-  getaccountData,
-  addAccountData,
-  renderBalance,
-} from './helpers/Account.js';
+import { renderCategory } from './helpers/Category.js';
+import { getaccountData, renderBalance } from './helpers/Account.js';
 import { connectAjax } from './helpers/Common.js';
 
 $(() => {
@@ -40,8 +37,6 @@ $(() => {
     e.preventDefault();
     $('#categorybox').hide();
   });
-
-  // categroy
 
   let categoryArr = [];
 
@@ -107,7 +102,6 @@ $(() => {
     dataType: 'json',
   }).done((data) => {
     //add new users
-    // addAccountData();
     renderTran(data);
 
     // filter/////
@@ -143,8 +137,6 @@ $(() => {
     });
 
     const accountsData = [...getaccountData(data)];
-    // console.log(renderBalance(accountsData));
-
     renderBalance(accountsData);
 
     $('[name=username]').change(() => {
@@ -196,28 +188,6 @@ $('#btnAddAccount').click(function (e) {
     return alert('Username is empty');
   }
 });
-// }
-const renderCategory = (data) => {
-  const list = $.map(data, (value, index) => {
-    return ` <option value="${value.name.name}" key="">${value.name.name}</option>
-
-        `;
-  });
-  $('#categoryselect').empty();
-  $('#categoryselect').append(
-    `
-      <option id="">Select category</option>
-      <option id="addcategory" value="addcategory" >add category</option>
-      `
-  );
-  $('#categoryselect').append(
-    $.each(list, (i, post) => {
-      `
-        ${post}
-        `;
-    })
-  );
-};
 
 // add transaction data to json
 let setUser = 0;

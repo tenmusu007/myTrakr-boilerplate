@@ -17,14 +17,6 @@ class Transaction {
     this.description = description;
     this.id = id;
     this.transactionType = transactionType;
-
-    // accountIdFrom: 1;
-    // accountIdTo: 2;
-    // amount: 999;
-    // category: 'mlk';
-    // description: '';
-    // id: 25;
-    // transactionType: 'transfer';
   }
   commit() {
     if (this.value < 0 && this.amount > this.account.balance) return;
