@@ -10,6 +10,7 @@
 //     }, 0);
 //   }
 // }
+import { convertTransaction } from './Transaction.js';
 
 class Account {
   constructor(username, transactions = []) {
@@ -24,8 +25,16 @@ class Account {
     }, 0);
   }
 }
+export const getaccountData = (data) => {
+  return data.map((account) => {
+    const newTransactions = account.transactions.map((transaction) => {
+      return convertTransaction(transaction);
+    });
+    return new Account(account.username, newTransactions);
+  });
+};
 
-const addAccountData = () => {
+export const addAccountData = () => {
   $('#btnAddAccount').click(function () {
     const inputVal = $('#newUserName').val();
     if (inputVal !== '') {
@@ -43,7 +52,7 @@ const addAccountData = () => {
   });
 };
 
-const renderBalance = () => {
+export const renderBalance = () => {
   $('[name=username]').change(() => {
     let selectedUserId = $('[name=username]').val();
     for (let index = 0; index < accountsData.length; index++) {
@@ -56,3 +65,5 @@ const renderBalance = () => {
     }
   });
 };
+
+export default { getaccountData, addAccountData, renderBalance };
