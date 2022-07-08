@@ -38,7 +38,7 @@ app.get('/transactions', (req, res) => {
 
 // add new transaction
 app.post('/transaction', (req, res) => {
-  console.log("data",req.body)
+  console.log('data', req.body);
   if (!req.body.newTransaction) {
     res.status(400).send('Invalid data');
   }
