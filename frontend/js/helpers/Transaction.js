@@ -17,14 +17,6 @@ class Transaction {
     this.description = description;
     this.id = id;
     this.transactionType = transactionType;
-
-    // accountIdFrom: 1;
-    // accountIdTo: 2;
-    // amount: 999;
-    // category: 'mlk';
-    // description: '';
-    // id: 25;
-    // transactionType: 'transfer';
   }
   commit() {
     if (this.value < 0 && this.amount > this.account.balance) return;
@@ -81,6 +73,33 @@ export const renderTran = (data) => {
 export const convertTransaction = (transaction) => {
   if (transaction.transactionType == 'transfer') {
     return new Transfer(
+      transaction.amount,
+      transaction.accountId,
+      transaction.accountIdFrom,
+      transaction.accountIdTo,
+      transaction.category,
+      transaction.description,
+      transaction.id,
+      transaction.transactionType
+    );
+  } else if (transaction.transactionType == 'deposit') {
+    return new Deposit(
+      transaction.amount,
+      transaction.accountId,
+      transaction.accountIdFrom,
+      transaction.accountIdTo,
+      transaction.category,
+      transaction.description,
+      transaction.id,
+      transaction.transactionType
+    );
+  } else {
+    // if (accountsData[accountId - 1].balance + amount < 0) {
+    //   return alert('You are not rich enough');
+    // }
+
+    // console.log(transaction);
+    return new Withdrawal(
       transaction.amount,
       transaction.accountId,
       transaction.accountIdFrom,
