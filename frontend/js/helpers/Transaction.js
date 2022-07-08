@@ -90,6 +90,33 @@ export const convertTransaction = (transaction) => {
       transaction.id,
       transaction.transactionType
     );
+  } else if (transaction.transactionType == 'deposit') {
+    return new Deposit(
+      transaction.amount,
+      transaction.accountId,
+      transaction.accountIdFrom,
+      transaction.accountIdTo,
+      transaction.category,
+      transaction.description,
+      transaction.id,
+      transaction.transactionType
+    );
+  } else {
+    // if (accountsData[accountId - 1].balance + amount < 0) {
+    //   return alert('You are not rich enough');
+    // }
+
+    // console.log(transaction);
+    return new Withdrawal(
+      transaction.amount,
+      transaction.accountId,
+      transaction.accountIdFrom,
+      transaction.accountIdTo,
+      transaction.category,
+      transaction.description,
+      transaction.id,
+      transaction.transactionType
+    );
   }
 };
 
