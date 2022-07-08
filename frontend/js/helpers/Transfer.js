@@ -1,15 +1,19 @@
 class Transfer extends Transaction {
-    constructor(accountIdFrom,accountIdTo){
-        super()
+    constructor(amount, account, accountIdFrom, accountIdTo){
+        super(amount, account)
         this.accountIdFrom = accountIdFrom;
         this.accountIdTo = accountIdTo;
     }
     get value(){
-        if(this.accountIdFrom === this.account.id){
+        if(this.accountIdFrom === this.account){
+            console.log(this.accountIdFrom);
+            console.log(this.account);
             return -this.amount
-        }else if(this.accountIdTo === this.account.id){
+        }else if(this.accountIdTo == this.account){
             return this.amount
         }
+        // return "this account " + this.account
+        // return [this.amount, this.account]
     }
 }
 
