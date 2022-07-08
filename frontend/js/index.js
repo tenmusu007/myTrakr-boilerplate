@@ -7,7 +7,7 @@ $(() => {
     toname = name;
     // console.log(name);
   });
-  
+
   $('[name=type]').change((e) => {
     let radiobtn = $('input[name="type"]:checked').val();
     e.preventDefault();
@@ -34,9 +34,9 @@ $(() => {
     e.preventDefault();
     $('#categorybox').hide();
   });
-  
+
   // categroy
-  
+
   let categoryArr = []
   $.ajax({
     method: 'get',
@@ -46,7 +46,7 @@ $(() => {
     .done((data) => {
       // console.log("atsu", data);
       renderCategory(data)
-      $.map(data,(value,index)=>{
+      $.map(data, (value, index) => {
         // console.log(value.name.name);
         categoryArr.push(value.name.name)
       })
@@ -62,9 +62,9 @@ $(() => {
         e.preventDefault();
         let newcategory = $('#categoryinput').val();
         // console.log(newcategory);
-        const checkCategory = $.inArray(newcategory,categoryArr)
+        const checkCategory = $.inArray(newcategory, categoryArr)
         // console.log(checkCategory);
-        if(checkCategory < 0){
+        if (checkCategory < 0) {
           categoryArr.push(newcategory)
           $.ajax({
             method: 'post',
@@ -77,18 +77,18 @@ $(() => {
             dataType: 'json',
             contentType: 'application/json',
           })
-          .done((data) => {
-            $.ajax({
-              method: 'get',
-              url: 'http://localhost:3000/categories',
-              dataType: 'json',
-            })
             .done((data) => {
-              console.log("atsu", data);
-              renderCategory(data)
-            });
-          })
-        } else{
+              $.ajax({
+                method: 'get',
+                url: 'http://localhost:3000/categories',
+                dataType: 'json',
+              })
+                .done((data) => {
+                  console.log("atsu", data);
+                  renderCategory(data)
+                });
+            })
+        } else {
           return alert("The category is aleady added")
         }
       });
@@ -197,7 +197,7 @@ $(() => {
 
     //get category value
     $('[name=category]').change(() => {
-        getCategory = $('[name=category] option:selected').text();
+      getCategory = $('[name=category] option:selected').text();
     });
 
     // setUser(data);
@@ -281,26 +281,34 @@ $('#addtran').on('click', (e) => {
     console.log(deposit.value);
     // deposit.commit();
     amount = deposit.value;
-  }else if(transactionType === 'transfer'){
+  } else if (transactionType === 'transfer') {
+    console.log(accountsData);
     // console.log(accountIdFrom, accountIdTo);
+    // accountId = [setUserFrom.id, setUserTo.id]
+    accountId = setUserFrom.id;
     transfer = new Transfer(
-      accountIdFrom, accountIdTo);
-      console.log(transfer);
-      console.log(transfer.value);
-    amount = transfer.vaue
-  }else {
+      Number($('#transamount').val()),
+      accountId,
+      accountIdFrom,
+      accountIdTo,
+    );
+    console.log(transfer);
+    console.log(transfer.value);
+    amount = transfer.value
+  } else {
     console.log('Worng');
   }
   let getCategory = $('[name=category] option:selected').val();
-  console.log(getCategory);
-  if(getCategory === "Select category"){
+  // console.log(getCategory);
+  if (getCategory === "Select category") {
     return alert("chose category")
   }
   let category = getCategory;
-  
+
 
   // let accountIdTo = 0;
   // let accountIdFrom = 0;
+  // if()
   jsonTransactionData = JSON.stringify({
     newTransaction: {
       accountId: accountId,
