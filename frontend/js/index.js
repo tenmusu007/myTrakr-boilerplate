@@ -1,22 +1,28 @@
+import { renderTran, convertTransaction } from './helpers/Transaction.js';
+import {
+  getaccountData,
+  addAccountData,
+  // renderBalance,
+} from './helpers/Account.js';
+import { connectAjax } from './helpers/Common.js';
+
 $(() => {
   $('#transfer').hide();
   let test;
   // Account to /////
   $('[name=to]').change(() => {
     let name = $('[name=to] option:selected').text();
-    toname = name;
     // console.log(name);
   });
 
   $('[name=type]').change((e) => {
     let radiobtn = $('input[name="type"]:checked').val();
     e.preventDefault();
-    radiovalue = radiobtn;
     // console.log(radiovalue);
-    if (radiovalue === 'withdraw' || radiovalue === 'deposit') {
+    if (radiobtn === 'withdraw' || radiobtn === 'deposit') {
       $('#transfer').hide();
       $('#account').show();
-    } else if (radiovalue === 'transfer') {
+    } else if (radiobtn === 'transfer') {
       $('#account').hide();
       $('#transfer').show();
       // $("#addtran").on("click",(e)=>{
@@ -49,7 +55,6 @@ $(() => {
     $.map(data, (value, index) => {
       // console.log(value.name.name);
       categoryArr.push(value.name.name);
-
     });
     // console.log(categoryArr);
   });
@@ -102,7 +107,7 @@ $(() => {
     dataType: 'json',
   }).done((data) => {
     //add new users
-    addAccountData();
+    // addAccountData();
     renderTran(data);
 
     // filter/////
@@ -137,11 +142,10 @@ $(() => {
       });
     });
 
-    accountsData = data.map((account) => {
-      return new Account(account.username, account.transactions);
-    });
+    const accountsData = [...getaccountData(data)];
+    console.log(accountsData);
 
-    renderBalance();
+    // renderBalance();
 
     $('[name=username]').change(() => {
       let selectedUser = $('[name=username]').val();
@@ -178,16 +182,31 @@ $(() => {
     });
 
     //get category value
-    $('[name=category]').change(() => {
-      getCategory = $('[name=category] option:selected').text();
-    });
+    // $('[name=category]').change(() => {
+    //   getCategory = $('[name=category] option:selected').text();
+    // });
 
     // setUser(data);
     addUserSelectBox(data);
     addTransactionData();
   });
 });
-
+$('#btnAddAccount').click(function (e) {
+  e.preventDefault();
+  const inputVal = $('#newUserName').val();
+  if (inputVal !== '') {
+    // const user = new Account(inputVal);
+    const jsonData = JSON.stringify({
+      newAccount: {
+        username: inputVal,
+        transactions: [],
+      },
+    });
+    connectAjax('post', 'accounts', jsonData);
+  } else {
+    return alert('Username is empty');
+  }
+});
 // }
 const renderCategory = (data) => {
   const list = $.map(data, (value, index) => {
@@ -211,115 +230,110 @@ const renderCategory = (data) => {
   );
 };
 
-const renderTran = (data) => {
-  $('#table #transactionTable').remove();
-  $.each(data, (index, value) => {
-    // console.log(value.transactions);
-    for (const key in value.transactions) {
-      $('#table').append(
-        `
-        <tr class="table" id="transactionTable">
-        <td>${value.id}</td>
-        <td>${value.username}</td>
-          <td>${value.transactions[key].transactionType}</td>
-          <td>${value.transactions[key].category}</td>
-          <td>${value.transactions[key].description}</td>
-          <td>${value.transactions[key].amount}</td>
-          <td>${value.transactions[key].accountIdFrom}</td>
-          <td>${value.transactions[key].accountIdTo}</td>
-        </tr>
-        `
-      );
-    }
-  });
-  ////////dev
-};
-
 // add transaction data to json
-let setUser = 0
-let setUserFrom = 0
-let setUserTo = 0
-let accountIdFrom = 0
-let accountIdTo = 0
+let setUser = 0;
+let setUserFrom = 0;
+let setUserTo = 0;
+let accountIdFrom = 0;
+let accountIdTo = 0;
 const addTransactionData = () => {
   $('#addtran').on('click', (e) => {
-    // e.preventDefault();
+    e.preventDefault();
+    accountIdFrom = Number($('[name=from]').val());
+    accountIdTo = Number($('[name=to]').val());
     let accountId = $('[name=username]').val();
     let transactionType = $('input[name="type"]:checked').val();
     let description = $('#transtxt').val();
     let amount = Number($('#transamount').val());
     let category = $('[name=category] option:selected').val();
-    console.log(amount);
-    console.log(accountsData[accountId - 1].balance);
+    // console.log(amount);
+    // console.log(accountsData[accountId - 1].balance);
 
     // required account
-    if (accountId == 'username') {
-      return alert('choose account');
-    }
+    // if (accountId == 'username') {
+    //   return alert('choose account');
+    // }
 
     //required typing amount
     if (amount <= 0) {
       return alert('type greater than 0 amount');
     }
-    if (transactionType === 'withdraw') {
-      withdrawal = new Withdrawal(
-        Number($('#transamount').val()),
-        accountsData[accountId - 1]
-      );
-      console.log(withdrawal);
-      console.log(withdrawal.value);
-      withdrawal.commit();
-      amount = withdrawal.value;
-      if (accountsData[accountId - 1].balance + amount < 0) {
-        return alert('You are not rich enough');
-      }
-    } else if (transactionType === 'deposit') {
-      deposit = new Deposit(
-        Number($('#transamount').val()),
-        accountsData[accountId - 1]
-      );
-      // console.log(deposit);
-      // console.log(deposit.value);
-      // deposit.commit();
-      amount = deposit.value;
-    } else if (transactionType === 'transfer') {
-      console.log(accountsData);
-      // console.log(accountIdFrom, accountIdTo);
-      // accountId = [setUserFrom.id, setUserTo.id]
-      accountId = setUserFrom.id;
-      transfer = new Transfer(
-        Number($('#transamount').val()),
-        accountId,
-        accountIdFrom,
-        accountIdTo,
-      );
-      console.log(transfer);
-      console.log(transfer.value);
-      amount = transfer.value
-      console.log('Something Wrong in Transfer');
-    }else {
-    console.log('Worng');
-  }
+    // if (transactionType === 'withdraw') {
+    //   withdrawal = new Withdrawal(
+    //     Number($('#transamount').val()),
+    //     accountsData[accountId - 1]
+    //   );
+    //   console.log(withdrawal);
+    //   console.log(withdrawal.value);
+    //   withdrawal.commit();
+    //   amount = withdrawal.value;
+    //   if (accountsData[accountId - 1].balance + amount < 0) {
+    //     return alert('You are not rich enough');
+    //   }
+    // } else if (transactionType === 'deposit') {
+    //   deposit = new Deposit(
+    //     Number($('#transamount').val()),
+    //     accountsData[accountId - 1]
+    //   );
+    //   // console.log(deposit);
+    //   // console.log(deposit.value);
+    //   // deposit.commit();
+    //   amount = deposit.value;
+    // } else if (transactionType === 'transfer') {
+    //   console.log(accountsData);
+    //   // console.log(accountIdFrom, accountIdTo);
+    //   // accountId = [setUserFrom.id, setUserTo.id]
+    //   // accountId = setUserFrom.id;
+    //   // transfer = new Transfer(
+    //   //   Number($('#transamount').val()),
+    //   //   1,
+    //   //   accountIdFrom,
+    //   //   accountIdTo
+    //   // );
+    //   console.log(transfer);
+    //   console.log(transfer.value);
+    //   amount = transfer.value;
+    //   console.log('Something Wrong in Transfer');
+    // } else {
+    //   console.log('Worng');
+    // }
 
     //require category
     if (category === 'Select category' || category === 'addcategory') {
-    return alert('choose category');
-  }
-  const jsonTransactionData = JSON.stringify({
-    newTransaction: {
-      accountId: accountId,
-      accountIdFrom: accountIdFrom,
-      accountIdTo: accountIdTo,
-      transactionType: transactionType,
-      category: category,
-      description: description,
-      amount: amount,
-    },
-  });
-  connectAjax('post', 'transaction', jsonTransactionData);
+      return alert('choose category');
+    }
+    const jsonTransactionData = JSON.stringify({
+      newTransaction: {
+        accountId: accountId,
+        accountIdFrom: accountIdFrom,
+        accountIdTo: accountIdTo,
+        transactionType: transactionType,
+        category: category,
+        description: description,
+        amount: amount,
+      },
+    });
+    $.ajax({
+      method: 'post',
+      data: jsonTransactionData,
+      url: `http://localhost:3000/transaction`,
+      dataType: 'json',
+      contentType: 'application/json',
+    })
+      .done((data) => {
+        console.log(data);
+        data.forEach((element) => {
+          let newTransaction = element;
 
-})
-}
+          const convertedTransaction = convertTransaction(newTransaction);
+          console.log(convertedTransaction.value);
+        });
+      })
+      .fail((data) => {
+        console.log(`FAILED ${method} ${url}`, data);
+      });
+  });
+};
 // let setUser = 0
 // let setUserFrom = 0
 // let setUserTo = 0
@@ -388,7 +402,6 @@ const addTransactionData = () => {
 //     }
 //     // category = category;
 
-
 //     // let accountIdTo = 0;
 //     // let accountIdFrom = 0;
 //     // if()
@@ -423,7 +436,6 @@ const addTransactionData = () => {
 //   });
 // }
 
-
 const addUserSelectBox = (data) => {
   for (let index = 0; index < data.length; index++) {
     $('#selectUser').append(
@@ -433,10 +445,10 @@ const addUserSelectBox = (data) => {
       $('<option>').html(data[index].username).val(data[index].username)
     );
     $('#from').append(
-      $('<option>').html(data[index].username).val(data[index].username)
+      $('<option>').html(data[index].username).val(data[index].id)
     );
     $('#to').append(
-      $('<option>').html(data[index].username).val(data[index].username)
+      $('<option>').html(data[index].username).val(data[index].id)
     );
   }
 };

@@ -1,5 +1,6 @@
 //common functions that can be used in different cases
-const connectAjax = (method, url, sendingData = '') => {
+export const connectAjax = (method, url, sendingData = '') => {
+  console.log('here');
   $.ajax({
     method: method,
     data: sendingData,
@@ -14,3 +15,5 @@ const connectAjax = (method, url, sendingData = '') => {
       console.log(`FAILED ${method} ${url}`, data);
     });
 };
+
+export default { connectAjax };
