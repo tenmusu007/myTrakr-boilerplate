@@ -1,4 +1,4 @@
-import { renderTran, convertTransaction } from './helpers/Transaction.js';
+import { renderTran, renderTranNormal, renderTranAll, convertTransaction } from './helpers/Transaction.js';
 import { renderCategory } from './helpers/Category.js';
 import { getaccountData, renderBalance } from './helpers/Account.js';
 import { connectAjax } from './helpers/Common.js';
@@ -137,6 +137,44 @@ $(() => {
 
     const accountsData = [...getaccountData(data)];
     renderBalance(accountsData);
+    console.log(accountsData);
+    renderTranAll(accountsData);
+    renderTranNormal(accountsData);
+    // console.log(User);
+    // const renderTran = (data) => {
+    //   $('[name=filter]').change(() => {
+    //   let username = $('[name=filter] option:selected').text()
+    //   let userId = $('[name=filter]').val()
+    //   console.log(username);
+    //   console.log(data);
+    
+    //   // console.log(User);
+    //   // for(const i in User){
+    //   //   console.log(User[i]);
+    //   //   if(User[i] === username){
+    //     if(username === "All"){
+    //       if (data.transactionType === "transfer") {
+    //           $('#table').append(
+    //             `
+    //             <tr class="table" id="transactionTable">
+    //             <td>${data.account}</td>
+    //             <td>${username}</td>
+    //             <td>${data.transactionType}</td>
+    //             <td>${data.category}</td>
+    //             <td>${data.description}</td>
+    //             <td>${data.value}</td>
+    //             <td>${data.accountIdFrom}</td>
+    //             <td>${data.accountIdTo}</td>
+    //             </tr>
+    //             `
+    //             );
+    //       }
+    //     }
+    //   //   }
+    //   // }
+    // })
+    
+    // };
 
 
     $('[name=username]').change(() => {
@@ -172,6 +210,9 @@ $(() => {
     addTransactionData(accountsData);
   });
 });
+
+
+
 $('#btnAddAccount').click(function (e) {
   e.preventDefault();
   const inputVal = $('#newUserName').val();
@@ -259,33 +300,7 @@ const addTransactionData = (accountsData) => {
           console.log(convertedTransaction);
           console.log(convertedTransaction.value);
           // renderTran(...convertedTransaction)
-            renderTran(convertedTransaction)
-          // $('[name=filter]').change(() => {
-          //     // console.log('yse');
-          //     let filterName = $('[name=filter]').val();
-          //     console.log(filterName);
-          //     if (filterName === 'username') {
-          //       return renderTran(convertedTransaction);
-          //     }
-          //     let filterList = $.grep(convertedTransaction, (value, index) => {
-          //       console.log(value);
-          //       if (filterName === value.account) {
-          //         return value;
-          //       } else {
-          //         $('#table').empty;
-          //       }
-          //     });
-          //     // console.log("tran",filterList[0].transactions.length);
-          //     console.log(filterList);
-          //     // if (filterList[0].transactions.length > 0) {
-          //     //   renderTran(filterList);
-          //     // } else {
-          //     //   $('#table1').empty();
-          //     //   console.log('transaction empty');
-          //     // }
-            
-          // });
-      
+            renderTran(convertedTransaction, accountsData)
           // convertedTransaction.amount = convertedTransaction.value
         });
       })
