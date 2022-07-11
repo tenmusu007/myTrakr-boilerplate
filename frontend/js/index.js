@@ -1,5 +1,5 @@
 import { renderTran, renderTranNormal, renderTranAll, convertTransaction } from './helpers/Transaction.js';
-import { renderCategory,checkCategory } from './helpers/Category.js';
+import { renderCategory, checkCategory } from './helpers/Category.js';
 import { getaccountData, renderBalance } from './helpers/Account.js';
 import { connectAjax } from './helpers/Common.js';
 
@@ -31,21 +31,15 @@ $(() => {
     $('#categorybox').hide();
   });
 
-  
-  // let categoryArr = [];
   $.ajax({
     method: 'get',
     url: 'http://localhost:3000/categories',
     dataType: 'json',
   }).done((data) => {
     renderCategory(data);
-    // $.map(data, (value, index) => {
-    //   categoryArr.push(value.name.name);
-    //   // checkCategory(data)
-    // });
   });
   $('#categorybox').hide();
-  
+
   // accounts////////////
   $.ajax({
     method: 'get',
@@ -58,7 +52,7 @@ $(() => {
     console.log(accountsData);
     renderTranAll(accountsData);
     renderTranNormal(accountsData);
-    
+
     $('[name=username]').change(() => {
       let selectedUser = $('[name=username]').val();
       for (let index = 0; index < accountsData.length; index++) {
@@ -87,7 +81,7 @@ $(() => {
         }
       }
     });
-    
+
     addUserSelectBox(data);
     addTransactionData(accountsData);
   });
@@ -112,19 +106,16 @@ $('#btnAddAccount').click(function (e) {
 });
 
 // add transaction data to json
-let setUser = 0;
-let setUserFrom = 0;
-let setUserTo = 0;
-let accountIdFrom = 0;
-let accountIdTo = 0;
 const addTransactionData = (accountsData) => {
+  let accountIdFrom = 0;
+  let accountIdTo = 0;
   $('#addtran').on('click', (e) => {
     // e.preventDefault();
     let transactionType = $('input[name="type"]:checked').val();
     if (transactionType !== "transfer") {
       accountIdFrom = ""
       accountIdTo = ""
-    }else{
+    } else {
       accountIdFrom = Number($('[name=from]').val());
       accountIdTo = Number($('[name=to]').val());
     }
@@ -132,26 +123,26 @@ const addTransactionData = (accountsData) => {
     let description = $('#transtxt').val();
     let amount = Number($('#transamount').val());
     let category = $('[name=category] option:selected').val();
-    
+
     //required typing amount
     if (amount <= 0) {
       return alert('type greater than 0 amount');
     }
-    
+
     if (
       (transactionType == 'withdraw' &&
-      accountsData[accountId - 1].balance < amount) ||
+        accountsData[accountId - 1].balance < amount) ||
       (transactionType == 'transfer' &&
-      accountsData[accountIdFrom - 1].balance < amount)
-      ) {
-        return alert('You are not rich enough');
-      }
+        accountsData[accountIdFrom - 1].balance < amount)
+    ) {
+      return alert('You are not rich enough');
+    }
 
-      if (transactionType == 'transfer' && !accountIdTo) {
-        return alert('To is empty');
-      } else if (transactionType == 'transfer' && !accountIdFrom) {
-        return alert('From is empty');
-      } else if (transactionType == 'transfer' && accountIdFrom == accountIdTo) {
+    if (transactionType == 'transfer' && !accountIdTo) {
+      return alert('To is empty');
+    } else if (transactionType == 'transfer' && !accountIdFrom) {
+      return alert('From is empty');
+    } else if (transactionType == 'transfer' && accountIdFrom == accountIdTo) {
       return alert('To and From are the same');
     }
 
@@ -159,7 +150,7 @@ const addTransactionData = (accountsData) => {
       //require category
       return alert('choose category');
     }
-    
+
     const jsonTransactionData = JSON.stringify({
       newTransaction: {
         accountId: accountId,
@@ -178,19 +169,19 @@ const addTransactionData = (accountsData) => {
       dataType: 'json',
       contentType: 'application/json',
     })
-    .done((data) => {
-      console.log(data);
-      data.forEach((element) => {
-        let newTransaction = element;
-        const convertedTransaction = convertTransaction(newTransaction);
-        console.log(convertedTransaction);
-        console.log(convertedTransaction.value);
-        renderTran(convertedTransaction, accountsData)
+      .done((data) => {
+        console.log(data);
+        data.forEach((element) => {
+          let newTransaction = element;
+          const convertedTransaction = convertTransaction(newTransaction);
+          console.log(convertedTransaction);
+          console.log(convertedTransaction.value);
+          renderTran(convertedTransaction, accountsData)
+        });
+      })
+      .fail((data) => {
+        console.log(`FAILED ${method} ${url}`, data);
       });
-    })
-    .fail((data) => {
-      console.log(`FAILED ${method} ${url}`, data);
-    });
   });
 };
 
@@ -201,14 +192,14 @@ const addUserSelectBox = (data) => {
     );
     $('#filterselct').append(
       $('<option>').html(data[index].username).val(data[index].id)
-      );
-      $('#from').append(
-        $('<option>').html(data[index].username).val(data[index].id)
+    );
+    $('#from').append(
+      $('<option>').html(data[index].username).val(data[index].id)
     );
     $('#to').append(
       $('<option>').html(data[index].username).val(data[index].id)
-      );
-    }
-  };
-  
-  checkCategory()
+    );
+  }
+};
+
+checkCategory()

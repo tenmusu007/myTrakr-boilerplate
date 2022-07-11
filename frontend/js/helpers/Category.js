@@ -28,6 +28,9 @@ export const checkCategory = ()=>{
       $('#addvategorybtn').on('click', (e) => {
         e.preventDefault();
         let newcategory = $('#categoryinput').val();
+        if(newcategory === " "){
+          return alert("Plase add category")
+        }
         const checkCategory = $.inArray(newcategory, categoryArr);
         if (checkCategory < 0) {
           categoryArr.push(newcategory);
