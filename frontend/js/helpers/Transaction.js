@@ -21,7 +21,6 @@ class Transaction {
   commit() {
     if (this.value < 0 && this.amount > this.account.balance) return;
     this.account.transactions.push(this.value);
-    // this.account.balance += this.value;
   }
 }
 class Withdrawal extends Transaction {
@@ -38,8 +37,6 @@ class Deposit extends Transaction {
 class Transfer extends Transaction {
   get value() {
     if (this.accountIdFrom === this.account) {
-      // console.log(this.accountIdFrom);
-      // console.log(this.account);
       return -this.amount;
     } else {
       return this.amount;
@@ -60,12 +57,6 @@ export const renderTran = (data, accountsData) => {
     console.log("rendfer", accountsData);
     let username = $('[name=filter] option:selected').text()
     let userId = $('[name=filter]').val()
-    // console.log(username);
-    // console.log("userid", typeof userId);
-    // console.log("data", data);
-    // console.log("data", data.account, "userId", Number(userId))
-    // console.log("transacation", accountsData[Number(userId) - 1].transactions);
-    // // for(const i in accountsData){
     if (data.account === Number(userId)) {
       $('#table #transactionTable').remove();
       if (data.transactionType === "transfer") {
@@ -185,21 +176,38 @@ export const renderTranAll =(accountsData)=>{
       $('#table #transactionTable').remove()
       for(const i in accountsData){
             for (const x in accountsData[i].transactions) {
-              $('#table').append(
-                `
-                <tr class="table" id="transactionTable">
-                <td>${accountsData[i].transactions[x].account}</td>
-                <td>${accountsData[i].username}</td>
-                <td>${accountsData[i].transactions[x].transactionType}</td>
-                <td>${accountsData[i].transactions[x].category}</td>
-                <td>${accountsData[i].transactions[x].description}</td>
-                <td>${accountsData[i].transactions[x].value}</td>
-                <td>${accountsData[i].transactions[x].accountIdFrom}</td>
-                <td>${accountsData[i].transactions[x].accountIdTo}</td>
-                </tr>
-                `
-                )
+              if(accountsData[i].transactions[x].transactionType === "transfer"){
+                $('#table').append(
+                  `
+                  <tr class="table" id="transactionTable">
+                  <td>${accountsData[i].transactions[x].account}</td>
+                  <td>${accountsData[i].username}</td>
+                  <td>${accountsData[i].transactions[x].transactionType}</td>
+                  <td>${accountsData[i].transactions[x].category}</td>
+                  <td>${accountsData[i].transactions[x].description}</td>
+                  <td>${accountsData[i].transactions[x].value}</td>
+                  <td>${accountsData[i].transactions[x].accountIdFrom}</td>
+                  <td>${accountsData[i].transactions[x].accountIdTo}</td>
+                  </tr>
+                  `
+                  )
+                }else{
+                  $('#table').append(
+                    `
+                    <tr class="table" id="transactionTable">
+                    <td>${accountsData[i].transactions[x].account}</td>
+                    <td>${accountsData[i].username}</td>
+                    <td>${accountsData[i].transactions[x].transactionType}</td>
+                    <td>${accountsData[i].transactions[x].category}</td>
+                    <td>${accountsData[i].transactions[x].description}</td>
+                    <td>${accountsData[i].transactions[x].value}</td>
+                    <td>${accountsData[i].transactions[x].accountIdTo} </td>
+                    <td>${accountsData[i].transactions[x].accountIdTo} </td>
+                    </tr>
+                    `
+                    )
               }
+            }
         }
 }
 
@@ -227,11 +235,6 @@ export const convertTransaction = (transaction) => {
       transaction.transactionType
     );
   } else {
-    // if (accountsData[accountId - 1].balance + amount < 0) {
-    //   return alert('You are not rich enough');
-    // }
-
-    // console.log(transaction);
     return new Withdrawal(
       transaction.amount,
       transaction.accountId,
