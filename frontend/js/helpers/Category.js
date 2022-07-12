@@ -1,8 +1,6 @@
 export const renderCategory = (data) => {
   const list = $.map(data, (value, index) => {
-    return ` <option value="${value.name.name}" key="">${value.name.name}</option>
-
-        `;
+    return `<option value="${value.name.name}" key="">${value.name.name}</option>`;
   });
   $('#categoryselect').empty();
   $('#categoryselect').append(
@@ -13,27 +11,27 @@ export const renderCategory = (data) => {
   );
   $('#categoryselect').append(
     $.each(list, (i, post) => {
-      `
-        ${post}
-        `;
+      post;
     })
   );
 };
-export const checkCategory = ()=>{
-  let categoryArr = [];
+export const checkCategory = (data)=>{
+  console.log("category",data);
+  const list = $.map(data, (value, index) => {
+    return value.name.name
+  });
+  console.log(list);
   $('[name=category]').change(() => {
     let selectdCategory = $('[name=category] option:selected').text();
     if (selectdCategory === 'add category') {
       $('#categorybox').show();
-      $('#addvategorybtn').on('click', (e) => {
-        e.preventDefault();
+      $('#addcategorybtn').on('click', (e) => {
         let newcategory = $('#categoryinput').val();
         if(newcategory === " "){
           return alert("Plase add category")
         }
-        const checkCategory = $.inArray(newcategory, categoryArr);
+        const checkCategory = $.inArray(newcategory, list);
         if (checkCategory < 0) {
-          categoryArr.push(newcategory);
           $.ajax({
             method: 'post',
             data: JSON.stringify({
@@ -50,7 +48,6 @@ export const checkCategory = ()=>{
               url: 'http://localhost:3000/categories',
               dataType: 'json',
             }).done((data) => {
-              console.log('atsu', data);
               renderCategory(data);
             });
           });

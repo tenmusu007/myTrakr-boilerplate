@@ -1,33 +1,13 @@
-import { renderTran, renderTranNormal, renderTranAll, convertTransaction } from './helpers/Transaction.js';
+import { renderTranNormal,convertTransaction } from './helpers/Transaction.js';
 import { renderCategory, checkCategory } from './helpers/Category.js';
 import { getaccountData, renderBalance } from './helpers/Account.js';
 import { connectAjax } from './helpers/Common.js';
 
 $(() => {
-  $('#transfer').hide();
-  let test;
+  raditoBtnChange()
   // Account to /////
-  $('[name=to]').change(() => {
-    let name = $('[name=to] option:selected').text();
-    // console.log(name);
-  });
-
-  $('[name=type]').change((e) => {
-    let radiobtn = $('input[name="type"]:checked').val();
-    e.preventDefault();
-    // console.log(radiovalue);
-    if (radiobtn === 'withdraw' || radiobtn === 'deposit') {
-      $('#transfer').hide();
-      $('#account').show();
-    } else if (radiobtn === 'transfer') {
-      $('#account').hide();
-      $('#transfer').show();
-    }
-  });
-
-
   $('#addcategroy').on('click', (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     $('#categorybox').hide();
   });
 
@@ -36,7 +16,9 @@ $(() => {
     url: 'http://localhost:3000/categories',
     dataType: 'json',
   }).done((data) => {
+    console.log(data);
     renderCategory(data);
+    checkCategory(data)
   });
   $('#categorybox').hide();
 
@@ -50,7 +32,6 @@ $(() => {
     const accountsData = [...getaccountData(data)];
     renderBalance(accountsData);
     console.log(accountsData);
-    renderTranAll(accountsData);
     renderTranNormal(accountsData);
 
     $('[name=username]').change(() => {
@@ -65,29 +46,10 @@ $(() => {
         }
       }
     });
-    $('[name=from]').change(() => {
-      let selectedUserFrom = $('[name=from]').val();
-      for (let index = 0; index < accountsData.length; index++) {
-        if (accountsData[index].username === selectedUserFrom) {
-          setUserFrom = data[index];
-        }
-      }
-    });
-    $('[name=to]').change(() => {
-      let selectedUserTo = $('[name=to]').val();
-      for (let index = 0; index < accountsData.length; index++) {
-        if (accountsData[index].username === selectedUserTo) {
-          setUserTo = data[index];
-        }
-      }
-    });
-
     addUserSelectBox(data);
     addTransactionData(accountsData);
   });
 });
-
-
 
 $('#btnAddAccount').click(function (e) {
   // e.preventDefault();
@@ -201,5 +163,18 @@ const addUserSelectBox = (data) => {
     );
   }
 };
+const raditoBtnChange =()=>{
+  $('#transfer').hide();
+  $('[name=type]').change((e) => {
+    let radiobtn = $('input[name="type"]:checked').val();
+    e.preventDefault();
+    if (radiobtn === 'withdraw' || radiobtn === 'deposit') {
+      $('#transfer').hide();
+      $('#account').show();
+    }else{
+      $('#account').hide();
+      $('#transfer').show();
+    }
+  });
+}
 
-checkCategory()

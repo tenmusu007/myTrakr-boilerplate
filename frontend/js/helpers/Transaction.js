@@ -43,7 +43,6 @@ class Transfer extends Transaction {
     }
   }
 }
-
 export const User = (data) => {
   let user = []
   for (const i in data) {
@@ -52,163 +51,41 @@ export const User = (data) => {
   }
   return user
 }
-export const renderTran = (data, accountsData) => {
-  $('[name=filter]').change(() => {
-    console.log("rendfer", accountsData);
-    let username = $('[name=filter] option:selected').text()
-    let userId = $('[name=filter]').val()
-    if (data.account === Number(userId)) {
-      $('#table #transactionTable').remove();
-      if (data.transactionType === "transfer") {
-        for (const i in accountsData[Number(userId) - 1].transactions) {
-          $('#table').append(
-            `
-            <tr class="table" id="transactionTable">
-            <td>${accountsData[Number(userId) - 1].transactions[i].account}</td>
-            <td>${accountsData[Number(userId) - 1].username}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].transactionType}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].category}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].description}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].value}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].accountIdFrom}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].accountIdTo}</td>
-            </tr>
-            `
-          )
-          $('#table').append(
-            `
-            <tr class="table" id="transactionTable">
-            <td>${data.account}</td>
-            <td>${accountsData[Number(userId) - 1].username}</td>
-            <td>${data.transactionType}</td>
-            <td>${data.category}</td>
-            <td>${data.description}</td>
-            <td>${data.value}</td>
-            <td>${data.accountIdFrom}</td>
-            <td>${data.accountIdTo}</td>
-            </tr>
-            `
-          );
-        }
-      } else {
-        for (const i in accountsData[Number(userId) - 1].transactions) {
-          $('#table').append(
-            `
-            <tr class="table" id="transactionTable">
-            <td>${accountsData[Number(userId) - 1].transactions[i].account}</td>
-            <td>${accountsData[Number(userId) - 1].username}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].transactionType}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].category}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].description}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].value}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].accountIdFrom}</td>
-            <td>${accountsData[Number(userId) - 1].transactions[i].accountIdTo}</td>
-            </tr>
-            `
-          )
-        }
-        $('#table').append(
-          `
-            <tr class="table" id="transactionTable">
-            <td>${data.account}</td>
-            <td>${accountsData[Number(userId) - 1].username}</td>
-            <td>${data.transactionType}</td>
-            <td>${data.category}</td>
-            <td>${data.description}</td>
-            <td>${data.value}</td>
-            <td> </td>
-            <td> </td>
-            </tr>
-            `
-        );
-
-      }
-    }
-  })
-}
 export const renderTranNormal = (accountsData) => {
+  $('#table #transactionTable').remove()
+  for (const i in accountsData) {
+    render(accountsData[i])
+  }
   console.log("rendfer", accountsData);
   $('[name=filter]').change(() => {
     $('#table #transactionTable').remove()
     let username = $('[name=filter] option:selected').text()
-    for(const i in accountsData){
-      if(username === "All"){
-          for (const x in accountsData[i].transactions) {
-            $('#table').append(
-              `
-              <tr class="table" id="transactionTable">
-              <td>${accountsData[i].transactions[x].account}</td>
-              <td>${accountsData[i].username}</td>
-              <td>${accountsData[i].transactions[x].transactionType}</td>
-              <td>${accountsData[i].transactions[x].category}</td>
-              <td>${accountsData[i].transactions[x].description}</td>
-              <td>${accountsData[i].transactions[x].value}</td>
-              <td>${accountsData[i].transactions[x].accountIdFrom}</td>
-              <td>${accountsData[i].transactions[x].accountIdTo}</td>
-              </tr>
-              `
-              )
-            }
-            // }
-          }else if(username === accountsData[i].username){
-            for (const x in accountsData[i].transactions) {
-              $('#table').append(
-                `
-                <tr class="table" id="transactionTable">
-                <td>${accountsData[i].transactions[x].account}</td>
-                <td>${accountsData[i].username}</td>
-                <td>${accountsData[i].transactions[x].transactionType}</td>
-                <td>${accountsData[i].transactions[x].category}</td>
-                <td>${accountsData[i].transactions[x].description}</td>
-                <td>${accountsData[i].transactions[x].value}</td>
-                <td>${accountsData[i].transactions[x].accountIdFrom}</td>
-                <td>${accountsData[i].transactions[x].accountIdTo}</td>
-                </tr>
-                `
-                )
-              }
-          }
+    for (const i in accountsData) {
+      if (username === "All") {
+        render(accountsData[i])
+      } else if (username === accountsData[i].username) {
+        render(accountsData[i])
       }
-    })
+    }
+  })
 }
-export const renderTranAll =(accountsData)=>{
-    console.log("rendfer", accountsData);
-      $('#table #transactionTable').remove()
-      for(const i in accountsData){
-            for (const x in accountsData[i].transactions) {
-              if(accountsData[i].transactions[x].transactionType === "transfer"){
-                $('#table').append(
-                  `
-                  <tr class="table" id="transactionTable">
-                  <td>${accountsData[i].transactions[x].account}</td>
-                  <td>${accountsData[i].username}</td>
-                  <td>${accountsData[i].transactions[x].transactionType}</td>
-                  <td>${accountsData[i].transactions[x].category}</td>
-                  <td>${accountsData[i].transactions[x].description}</td>
-                  <td>${accountsData[i].transactions[x].value}</td>
-                  <td>${accountsData[i].transactions[x].accountIdFrom}</td>
-                  <td>${accountsData[i].transactions[x].accountIdTo}</td>
-                  </tr>
-                  `
-                  )
-                }else{
-                  $('#table').append(
-                    `
-                    <tr class="table" id="transactionTable">
-                    <td>${accountsData[i].transactions[x].account}</td>
-                    <td>${accountsData[i].username}</td>
-                    <td>${accountsData[i].transactions[x].transactionType}</td>
-                    <td>${accountsData[i].transactions[x].category}</td>
-                    <td>${accountsData[i].transactions[x].description}</td>
-                    <td>${accountsData[i].transactions[x].value}</td>
-                    <td>${accountsData[i].transactions[x].accountIdTo} </td>
-                    <td>${accountsData[i].transactions[x].accountIdTo} </td>
-                    </tr>
-                    `
-                    )
-              }
-            }
-        }
+const render = (accountsData) => {
+  for (const x in accountsData.transactions) {
+    $('#table').append(
+      `
+    <tr class="table" id="transactionTable">
+    <td>${accountsData.transactions[x].account}</td>
+    <td>${accountsData.username}</td>
+    <td>${accountsData.transactions[x].transactionType}</td>
+    <td>${accountsData.transactions[x].category}</td>
+    <td>${accountsData.transactions[x].description}</td>
+    <td>${accountsData.transactions[x].value}</td>
+    <td>${accountsData.transactions[x].accountIdFrom}</td>
+    <td>${accountsData.transactions[x].accountIdTo}</td>
+    </tr>
+    `
+    )
+  }
 }
 
 export const convertTransaction = (transaction) => {
@@ -249,8 +126,6 @@ export const convertTransaction = (transaction) => {
 };
 
 export default {
-  renderTran,
   convertTransaction,
   renderTranNormal,
-  renderTranAll
 };
