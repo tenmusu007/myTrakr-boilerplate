@@ -44,31 +44,30 @@ class Transfer extends Transaction {
   }
 }
 export const User = (data) => {
-  let user = []
+  let user = [];
   for (const i in data) {
-    console.log(data[i].username);
-    user.push(data[i].username)
+    user.push(data[i].username);
   }
-  return user
-}
+  return user;
+};
 export const renderTranNormal = (accountsData) => {
-  $('#table #transactionTable').remove()
+  $('#table #transactionTable').remove();
   for (const i in accountsData) {
-    render(accountsData[i])
+    render(accountsData[i]);
   }
-  console.log("rendfer", accountsData);
+
   $('[name=filter]').change(() => {
-    $('#table #transactionTable').remove()
-    let username = $('[name=filter] option:selected').text()
+    $('#table #transactionTable').remove();
+    let username = $('[name=filter] option:selected').text();
     for (const i in accountsData) {
-      if (username === "All") {
-        render(accountsData[i])
+      if (username === 'All') {
+        render(accountsData[i]);
       } else if (username === accountsData[i].username) {
-        render(accountsData[i])
+        render(accountsData[i]);
       }
     }
-  })
-}
+  });
+};
 const render = (accountsData) => {
   for (const x in accountsData.transactions) {
     $('#table').append(
@@ -84,9 +83,9 @@ const render = (accountsData) => {
     <td>${accountsData.transactions[x].accountIdTo}</td>
     </tr>
     `
-    )
+    );
   }
-}
+};
 
 export const convertTransaction = (transaction) => {
   if (transaction.transactionType == 'transfer') {

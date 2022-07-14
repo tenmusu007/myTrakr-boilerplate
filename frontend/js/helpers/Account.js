@@ -26,7 +26,6 @@ export const renderBalance = (accountsData) => {
     let selectedUserId = $('[name=username]').val();
     for (let index = 0; index < accountsData.length; index++) {
       if (index === selectedUserId - 1) {
-        console.log(accountsData[index].balance);
         $('#summary').html(`
               <p>Username : ${accountsData[index].username}</p>
               <p class="balance">Balance : ${accountsData[index].balance}</p>
