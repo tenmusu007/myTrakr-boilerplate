@@ -1,6 +1,5 @@
 //common functions that can be used in different cases
 export const connectAjax = (method, url, sendingData = '') => {
-  console.log('here');
   $.ajax({
     method: method,
     data: sendingData,

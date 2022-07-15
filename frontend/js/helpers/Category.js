@@ -15,20 +15,19 @@ export const renderCategory = (data) => {
     })
   );
 };
-export const checkCategory = (data)=>{
-  console.log("category",data);
+
+export const checkCategory = (data) => {
   const list = $.map(data, (value, index) => {
-    return value.name.name
+    return value.name.name;
   });
-  console.log(list);
   $('[name=category]').change(() => {
     let selectdCategory = $('[name=category] option:selected').text();
     if (selectdCategory === 'add category') {
       $('#categorybox').show();
       $('#addcategorybtn').on('click', (e) => {
         let newcategory = $('#categoryinput').val();
-        if(newcategory === " "){
-          return alert("Plase add category")
+        if (newcategory === ' ') {
+          return alert('Plase add category');
         }
         const checkCategory = $.inArray(newcategory, list);
         if (checkCategory < 0) {
@@ -57,6 +56,5 @@ export const checkCategory = (data)=>{
       });
     }
   });
-
-}
-export default { renderCategory,checkCategory };
+};
+export default { renderCategory, checkCategory };

@@ -1,13 +1,11 @@
-import { renderTranNormal,convertTransaction } from './helpers/Transaction.js';
+import { renderTranNormal, convertTransaction } from './helpers/Transaction.js';
 import { renderCategory, checkCategory } from './helpers/Category.js';
 import { getaccountData, renderBalance } from './helpers/Account.js';
 import { connectAjax } from './helpers/Common.js';
 
 $(() => {
-  raditoBtnChange()
-  // Account to /////
+  raditoBtnChange();
   $('#addcategroy').on('click', (e) => {
-    // e.preventDefault();
     $('#categorybox').hide();
   });
 
@@ -16,9 +14,8 @@ $(() => {
     url: 'http://localhost:3000/categories',
     dataType: 'json',
   }).done((data) => {
-    console.log(data);
     renderCategory(data);
-    checkCategory(data)
+    checkCategory(data);
   });
   $('#categorybox').hide();
 
@@ -31,7 +28,6 @@ $(() => {
     //add new users
     const accountsData = [...getaccountData(data)];
     renderBalance(accountsData);
-    console.log(accountsData);
     renderTranNormal(accountsData);
 
     $('[name=username]').change(() => {
@@ -52,7 +48,6 @@ $(() => {
 });
 
 $('#btnAddAccount').click(function (e) {
-  // e.preventDefault();
   const inputVal = $('#newUserName').val();
   if (inputVal !== '') {
     const jsonData = JSON.stringify({
@@ -72,11 +67,10 @@ const addTransactionData = (accountsData) => {
   let accountIdFrom = 0;
   let accountIdTo = 0;
   $('#addtran').on('click', (e) => {
-    // e.preventDefault();
     let transactionType = $('input[name="type"]:checked').val();
-    if (transactionType !== "transfer") {
-      accountIdFrom = ""
-      accountIdTo = ""
+    if (transactionType !== 'transfer') {
+      accountIdFrom = '';
+      accountIdTo = '';
     } else {
       accountIdFrom = Number($('[name=from]').val());
       accountIdTo = Number($('[name=to]').val());
@@ -124,6 +118,7 @@ const addTransactionData = (accountsData) => {
         amount: amount,
       },
     });
+
     $.ajax({
       method: 'post',
       data: jsonTransactionData,
@@ -132,13 +127,10 @@ const addTransactionData = (accountsData) => {
       contentType: 'application/json',
     })
       .done((data) => {
-        console.log(data);
         data.forEach((element) => {
           let newTransaction = element;
           const convertedTransaction = convertTransaction(newTransaction);
-          console.log(convertedTransaction);
-          console.log(convertedTransaction.value);
-          renderTran(convertedTransaction, accountsData)
+          renderTran(convertedTransaction, accountsData);
         });
       })
       .fail((data) => {
@@ -163,7 +155,8 @@ const addUserSelectBox = (data) => {
     );
   }
 };
-const raditoBtnChange =()=>{
+
+const raditoBtnChange = () => {
   $('#transfer').hide();
   $('[name=type]').change((e) => {
     let radiobtn = $('input[name="type"]:checked').val();
@@ -171,10 +164,9 @@ const raditoBtnChange =()=>{
     if (radiobtn === 'withdraw' || radiobtn === 'deposit') {
       $('#transfer').hide();
       $('#account').show();
-    }else{
+    } else {
       $('#account').hide();
       $('#transfer').show();
     }
   });
-}
-
+};
