@@ -8,7 +8,7 @@ import { addCategory, getCategories } from './src/categories.js';
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.static('docs'));
 const port = 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
