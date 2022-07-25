@@ -9,7 +9,7 @@ import { addCategory, getCategories } from './src/categories.js';
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('docs'));
+app.use(express.static('frontend'));
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
