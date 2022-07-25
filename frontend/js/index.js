@@ -2,7 +2,7 @@ import { renderTranNormal, convertTransaction } from './helpers/Transaction.js';
 import { renderCategory, checkCategory } from './helpers/Category.js';
 import { getaccountData, renderBalance } from './helpers/Account.js';
 import { connectAjax } from './helpers/Common.js';
-
+import Url from '../js/index.js'
 $(() => {
   raditoBtnChange();
   $('#addcategroy').on('click', (e) => {
@@ -11,7 +11,7 @@ $(() => {
 
   $.ajax({
     method: 'get',
-    url: 'http://localhost:3000/categories',
+    url: `${Url}/categories`,
     dataType: 'json',
   }).done((data) => {
     renderCategory(data);
@@ -22,7 +22,7 @@ $(() => {
   // accounts////////////
   $.ajax({
     method: 'get',
-    url: 'http://localhost:3000/accounts',
+    url: `${Url}/accounts`,
     dataType: 'json',
   }).done((data) => {
     //add new users
@@ -122,7 +122,7 @@ const addTransactionData = (accountsData) => {
     $.ajax({
       method: 'post',
       data: jsonTransactionData,
-      url: `http://localhost:3000/transaction`,
+      url: `${Url}/transaction`,
       dataType: 'json',
       contentType: 'application/json',
     })

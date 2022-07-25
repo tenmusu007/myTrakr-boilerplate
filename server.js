@@ -5,6 +5,7 @@ import { addAccount, getAccounts } from './src/accounts.js';
 import { addTransaction, getAllTransactions } from './src/transactions.js';
 import { addCategory, getCategories } from './src/categories.js';
 
+
 const app = express();
 app.use(cors());
 app.use(express.json());

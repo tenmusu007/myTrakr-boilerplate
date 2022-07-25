@@ -14,5 +14,5 @@ export const connectAjax = (method, url, sendingData = '') => {
       console.log(`FAILED ${method} ${url}`, data);
     });
 };
-
+export const DomainUrl = "https://final-project-transaction.herokuapp.com/"
 export default { connectAjax };
