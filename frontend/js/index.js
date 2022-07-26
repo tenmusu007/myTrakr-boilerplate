@@ -2,7 +2,6 @@ import { renderTranNormal, convertTransaction } from './helpers/Transaction.js';
 import { renderCategory, checkCategory } from './helpers/Category.js';
 import { getaccountData, renderBalance } from './helpers/Account.js';
 import { connectAjax } from './helpers/Common.js';
-import Url from '../js/index.js'
 $(() => {
   raditoBtnChange();
   $('#addcategroy').on('click', (e) => {
