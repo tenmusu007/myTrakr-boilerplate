@@ -3,7 +3,7 @@ export const connectAjax = (method, url, sendingData = '') => {
   $.ajax({
     method: method,
     data: sendingData,
-    url: `http://localhost:3000/${url}`,
+    url: `https://dashboard.heroku.com/apps/final-project-transaction/deploy/heroku-git/`,
     dataType: 'json',
     contentType: 'application/json',
   })
