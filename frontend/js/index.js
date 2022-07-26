@@ -22,7 +22,7 @@ $(() => {
   // accounts////////////
   $.ajax({
     method: 'get',
-    url: `${Url}/accounts`,
+    url: `https://final-project-transaction.herokuapp.com/accounts`,
     dataType: 'json',
   }).done((data) => {
     //add new users
@@ -122,7 +122,7 @@ const addTransactionData = (accountsData) => {
     $.ajax({
       method: 'post',
       data: jsonTransactionData,
-      url: `${Url}/transaction`,
+      url: `https://final-project-transaction.herokuapp.com/transaction`,
       dataType: 'json',
       contentType: 'application/json',
     })

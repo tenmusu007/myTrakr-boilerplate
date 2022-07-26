@@ -38,13 +38,13 @@ export const checkCategory = (data) => {
                 name: newcategory,
               },
             }),
-            url: 'https://dashboard.heroku.com/apps/final-project-transaction/deploy/heroku-git/categories',
+            url: 'https://final-project-transaction.herokuapp.com/categories',
             dataType: 'json',
             contentType: 'application/json',
           }).done((data) => {
             $.ajax({
               method: 'get',
-              url: 'https://dashboard.heroku.com/apps/final-project-transaction/deploy/heroku-git/categories',
+              url: 'https://final-project-transaction.herokuapp.com/categories',
               dataType: 'json',
             }).done((data) => {
               renderCategory(data);
