@@ -11,7 +11,7 @@ $(() => {
 
   $.ajax({
     method: 'get',
-    url: `${Url}/categories`,
+    url: `https://final-project-transaction.herokuapp.com/categories`,
     dataType: 'json',
   }).done((data) => {
     renderCategory(data);
